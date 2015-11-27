@@ -1,0 +1,8 @@
+.tmp/
+.idea/
+hooks/
+node_modules
+platforms
+plugins
+
+npm-debug.log

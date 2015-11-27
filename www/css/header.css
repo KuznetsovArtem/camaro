@@ -1,0 +1,21 @@
+body, html {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#cr-app-header {
+    z-index: 1000;
+    position: fixed;
+    left:0;
+    top:0;
+    width:100%;                   /* text area width */
+    text-align:center;
+    overflow: hidden;
+    height: 50px;
+    background: url(http://www.carrentals.com/images/bkgd-header.png) repeat-x left top #f57020;
+}
+
+#ember748 {
+    padding-top: 50px;
+}
