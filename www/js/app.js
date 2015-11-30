@@ -64,7 +64,10 @@ var app = (function(config, $) {
         },
         domReadyTests: function() {
             $(function() {
-                $('#content').load('tpls/static.html');
+                //$('#content').load('tpls/static.html');
+                $('body').on("click", '#gotoweb', function() {
+                    app.openWebApp(config.WEB_HOME_URL, homePageInjects, '_blank');
+                })
             });
         },
         bindEvents: function() {
@@ -75,9 +78,9 @@ var app = (function(config, $) {
             // TODO: native buttons behaviour;
         },
         onDeviceReady: function() {
-            document.getElementById('gotoweb').onclick = function() {
-                app.openWebApp(config.WEB_HOME_URL, homePageInjects, '_blank');
-            };
+            //document.getElementById('gotoweb').onclick = function() {
+            //    app.openWebApp(config.WEB_HOME_URL, homePageInjects, '_blank');
+            //};
         },
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
