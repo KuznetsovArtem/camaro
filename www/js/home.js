@@ -14,6 +14,10 @@ var crApp = function() {
             $(window).on('load', function() {
                 var partials = $('body').find('div[cr-html]');
                 loadContent(partials);
+
+                $('#app-links-btn').on('click', function() {
+                    $('#cr-cover').toggle();
+                });
             });
         }
     }
