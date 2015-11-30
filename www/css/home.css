@@ -1,0 +1,62 @@
+body {
+    background: url('/img/home-bg.png') 0 0 no-repeat;
+    background-size: cover;
+}
+.logo {
+    background: url('/img/cr-logo-white.png') 0 0 no-repeat;
+}
+.navbar-default {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+.navbar-default .navbar-toggle,
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: transparent;
+    border: none;
+}
+.navbar-default .navbar-toggle.collapsed {
+    background: transparent url('/img/hamburger-white.png') center center no-repeat;
+    background-size: cover;
+    height: 32px;
+    margin-top: 10px;
+}
+.navbar-default .navbar-toggle {
+    background: transparent url('/img/x-close.png') center center no-repeat;
+    background-size: cover;
+    margin-top: 15px;
+}
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ffffff;
+}
+.navbar-default .navbar-collapse {
+    position: absolute;
+    width: 100%;
+    background-color: white;
+    z-index: 1;
+}
+.navbar-default .navbar-nav {
+    margin: 0 -15px;
+}
+.navbar-default .navbar-nav li {
+    border-top: 1px solid #888888;
+}
+.navbar-default .navbar-nav li:first-child {
+    font-weight: bold;
+}
+
+#cr-content {
+    position: absolute;
+    top: 38%;
+    width: 100%;
+    display: table;
+}
+#cr-content .cr-btn-area {
+    display: table-row;
+    text-align: center;
+}
+#cr-content .cr-btn-area button {
+    margin-top: 20px;
+    width: 75%;
+}
