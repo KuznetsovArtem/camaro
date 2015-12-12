@@ -1,22 +1,24 @@
 <header>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default cr-navbar cr-navbar-home">
         <div class="container-fluid">
             <div class="navbar-header">
+                <button type="button" class="cr-back-btn" onclick="history.back();"></button>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
                         data-target="#app-links" aria-expanded="false" id="app-links-btn">
                 </button>
-                <img src="img/cr-logo-white.png" class="navbar-brand"/>
-            </div>
-
-            <div class="collapse navbar-collapse" id="app-links">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown"><a href="#" onclick="alert('go to booking page')">My Bookings</a></li>
-                    <li class="dropdown"><a href="policy.html">Privacy Policy</a></li>
-                    <li class="dropdown"><a href="terms.html">Terms of Use</a></li>
-                    <li class="dropdown"><a href="faq.html">FAQ</a></li>
-                    <li class="dropdown"><a href="#" onclick="alert('open phone email client')">Contact Us</a></li>
-                </ul>
+                <img src="img/cr-logo-white.png" class="navbar-brand cr-logo-primary"/>
+                <span class="navbar-brand cr-logo-secondary"></span>
             </div>
         </div>
     </nav>
 </header>
+
+<div id="cr-cover">
+    <ul class="nav navbar-nav">
+        <li class="dropdown" id="myBookingsMenu"><a href="#">My Bookings</a></li>
+        <li class="dropdown" cr-html="partials/policy"><a href="#partials/policy">Privacy Policy</a></li>
+        <li class="dropdown" cr-html="partials/terms"><a href="#partials/terms">Terms of Use</a></li>
+        <li class="dropdown" cr-html="partials/faq"><a href="#partials/faq">FAQ</a></li>
+        <li class="dropdown" id="contactUsMenu"><a href="mailto:support@carRentals.com">Contact Us</a></li>
+    </ul>
+</div>
