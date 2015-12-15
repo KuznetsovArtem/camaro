@@ -10,7 +10,8 @@
     //TODO: pretty check;
 
     // TOOLS
-    var eventsHandlerElement = 'body';
+    var eventsHandlerElement = 'body',
+        CR_BACK_BTN_ID = 'cr-back-btn';
 
     function monitorLocation() {
         var currentLocation = location.pathname;
@@ -29,26 +30,32 @@
     // UI
 
     function apendHeader() {
-        $('body').prepend('<div id="cr-app-header"><h1>Carrentals App</h1></div>');
+        var elm = $('#logo');
+        elm.before('<a id="' + CR_BACK_BTN_ID + '" class="' + CR_BACK_BTN_ID + '" onclick="history.back();" style="display: none;"></a>');
+        elm.parent().css('height', '40px');
     }
 
     var makeChanges = function() {
         $(function() {
-            $('#main-header, #suppliers, #confidence, #main-footer, #feedbackify').hide();
+            $('#suppliers, #confidence, #main-footer, #feedbackify').hide();
         });
     };
 
     $(eventsHandlerElement).on("locationChange", function(e, location) {
+        var crHeaderBackBtn = $('#' + CR_BACK_BTN_ID);
         switch (location.new) {
-            case '/index':
-                //TODO: add background;
+            case '/':
+                if (crHeaderBackBtn.length !== 0) {
+                    crHeaderBackBtn.hide();
+                }
             break;
             default :
-                //TODO: remove bg
-            break;
+                if (crHeaderBackBtn.length !== 0) {
+                    crHeaderBackBtn.show();
+                }
+                break;
         }
 
-        $('#cr-app-header').text(location.new);
         makeChanges();
     });
 
