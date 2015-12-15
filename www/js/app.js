@@ -1,6 +1,6 @@
 var CONFIG = {
-    WEB_HOME_URL: 'https://www2.cardelmar.co.uk/index?searchId=7f86fb27-45c4-4419-9a53-33c58f15be4a',
-    WEB_BOOKING_URL: 'https://www2.cardelmar.co.uk/',
+    WEB_HOME_URL: 'https://dev.carrentals.com',
+    WEB_BOOKING_URL: 'https://dev.carrentals.com/bookings',
     APP_VERSION: '0.0.3'
 };
 
@@ -64,7 +64,21 @@ var app = (function(config, $) {
         },
         domReadyTests: function() {
             $(function() {
-                $('#content').load('tpls/static.html');
+                function launchInAppBrowser(evt) {
+                    app.openWebApp(evt.data, homePageInjects, '_blank');
+                }
+                //$('#content').load('tpls/static.html');
+                var bodyElm = $('body');
+                bodyElm.on("click", '#gotoweb', config.WEB_HOME_URL, launchInAppBrowser);
+                bodyElm.on("click", '#gotobooking', config.WEB_BOOKING_URL, launchInAppBrowser);
+
+                var interval = setInterval(function() {
+                    var crHeaderBookings = $('#myBookingsMenu');
+                    if (crHeaderBookings.length > 0) {
+                        crHeaderBookings.on('click', null, config.WEB_BOOKING_URL, launchInAppBrowser);
+                        clearInterval(interval);
+                    }
+                }, 2000);
             });
         },
         bindEvents: function() {
@@ -75,9 +89,9 @@ var app = (function(config, $) {
             // TODO: native buttons behaviour;
         },
         onDeviceReady: function() {
-            document.getElementById('gotoweb').onclick = function() {
-                app.openWebApp(config.WEB_HOME_URL, homePageInjects, '_blank');
-            };
+            //document.getElementById('gotoweb').onclick = function() {
+            //    app.openWebApp(config.WEB_HOME_URL, homePageInjects, '_blank');
+            //};
         },
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
