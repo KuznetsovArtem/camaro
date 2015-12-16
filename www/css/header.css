@@ -41,8 +41,8 @@ body, html {
     width: 40px;
     margin-top: 7px;
 }
-.ember-application div.reveal-modal,
+/*.ember-application div.reveal-modal,
 .ember-application section {
     top: 41px !important;
-}
+}*/
 
