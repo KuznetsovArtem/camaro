@@ -13,16 +13,17 @@
     background-color: transparent;
     border: none;
 }
-.cr-navbar .navbar-toggle.collapsed {
-    background: transparent url('../img/hamburger-white.png') center center no-repeat;
-    background-size: cover;
-    height: 32px;
-    margin-top: 10px;
+.cr-navbar .cr-menu-btn.expanded span:first-child,
+.cr-navbar .cr-menu-btn.collapsed span:last-child {
+    display: none;
 }
-.cr-navbar .navbar-toggle {
-    background: transparent url('../img/x-close.png') center center no-repeat;
-    background-size: cover;
-    margin-top: 15px;
+.cr-navbar .cr-menu-btn {
+    margin: 0 10px 0 0;
+    padding: 0;
+}
+.cr-navbar .cr-menu-btn span,
+.cr-navbar .cr-menu-btn.expanded span:last-child {
+    display: inline-block;
 }
 .cr-navbar .navbar-toggle .icon-bar {
     background-color: #ffffff;
@@ -48,6 +49,15 @@
 .cr-navbar {
     text-align: center;
 }
+.cr-navbar .navbar-header {
+    border-bottom: 1px solid #777;
+    color: #777777;
+    font-size: 18px;
+}
+.cr-navbar.cr-navbar-home .navbar-header {
+    border: none;
+    color: #ffffff;
+}
 .cr-navbar.cr-navbar-home .cr-logo-primary,
 .cr-navbar .cr-logo-secondary,
 .cr-navbar .cr-back-btn {
@@ -67,14 +77,9 @@
     line-height: 50px;
 }
 .cr-navbar .cr-back-btn {
-    background: transparent url('../img/back-button.png') center center no-repeat;
+    background: none;
     border: none;
     float: left;
-    padding-left: 10px;
-    background-size: 60% 60%;
-    height: 40px;
-    width: 40px;
-    margin-top: 7px;
 }
 .cr-navbar .cr-back-btn,
 .cr-navbar .cr-back-btn:active {
@@ -106,7 +111,12 @@ body.cr-content-home #cr-content {
 }
 #cr-content .cr-btn-area button {
     margin-top: 20px;
+    padding: 15px;
     width: 75%;
+}
+#cr-content .cr-btn-area button .glyphicon {
+    float: right;
+    margin-top: 2px;
 }
 
 #cr-cover {
@@ -121,6 +131,9 @@ body.cr-content-home #cr-content {
 }
 
 .cr-content {
+    padding: 15px;
+}
+.accordion {
     padding: 15px;
 }
 .accordion .accordion-heading a,
