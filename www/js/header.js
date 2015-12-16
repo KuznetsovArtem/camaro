@@ -47,11 +47,16 @@
             case '/':
                 if (crHeaderBackBtn.length !== 0) {
                     crHeaderBackBtn.hide();
+                } else {
+                    apendHeader();
                 }
             break;
             default :
                 if (crHeaderBackBtn.length !== 0) {
                     crHeaderBackBtn.show();
+                } else {
+                    apendHeader();
+                    crHeaderBackBtn.toggle();
                 }
                 break;
         }

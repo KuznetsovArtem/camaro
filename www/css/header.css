@@ -21,7 +21,11 @@ body, html {
 }
 
 #main-header {
+    background-color: #ffffff !important;
+    position: fixed !important;
     text-align: center !important;
+    width: 100% !important;
+    z-index: 99999999999 !important;
 }
 #main-header #logo {
     display: inline-block !important;
@@ -36,5 +40,9 @@ body, html {
     height: 40px;
     width: 40px;
     margin-top: 7px;
+}
+.ember-application div.reveal-modal,
+.ember-application section {
+    top: 41px !important;
 }
 
