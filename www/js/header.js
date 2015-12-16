@@ -30,9 +30,13 @@
     // UI
 
     function apendHeader() {
-        var elm = $('#logo');
+        var elm = $('#logo'),
+            menuElm;
         elm.before('<a id="' + CR_BACK_BTN_ID + '" class="' + CR_BACK_BTN_ID + '" onclick="history.back();" style="display: none;"></a>');
-        elm.parent().css('height', '40px');
+
+        menuElm = elm.parent();
+        menuElm.css('height', '40px');
+        $('body').find('section').first().css('top', menuElm.height());
     }
 
     var makeChanges = function() {
@@ -56,6 +60,10 @@
                     crHeaderBackBtn.show();
                 } else {
                     apendHeader();
+                    var popupElm = $('body').find('.reveal-modal');
+                    if (popupElm.length !== 0) {
+                        popupElm.css('top', $('#main-header').height());
+                    }
                     crHeaderBackBtn.toggle();
                 }
                 break;

@@ -21,6 +21,10 @@
     margin: 0 10px 0 0;
     padding: 0;
 }
+.cr-navbar button:focus {
+    outline: 0;
+    border: none;
+}
 .cr-navbar .cr-menu-btn span,
 .cr-navbar .cr-menu-btn.expanded span:last-child {
     display: inline-block;
@@ -128,6 +132,10 @@ body.cr-content-home #cr-content {
     height: 100%;
     display: none;
     z-index: 1;
+}
+
+#cr-header .navbar-nav li a {
+    padding: 15px;
 }
 
 .cr-content {

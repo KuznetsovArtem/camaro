@@ -1,6 +1,6 @@
 var CONFIG = {
     WEB_HOME_URL: 'https://dev.carrentals.com',
-    WEB_BOOKING_URL: 'https://dev.carrentals.com/bookings',
+    WEB_BOOKING_URL: 'https://book.carrentals.com/bookings',
     APP_VERSION: '0.0.3'
 };
 
