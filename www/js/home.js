@@ -31,7 +31,9 @@ var crApp = function() {
             $('#cr-header').find('.cr-navbar').removeClass('cr-navbar-home');
             $('body').removeClass('cr-content-home');
         }
-        partials.load(partialPath + '.html');
+        partials.load(partialPath + '.html', null, function() {
+            $('#app-links-btn').removeClass('expanded');
+        });
     };
 
     $(eventsHandlerElement).on("locationChange", function(e, location) {
@@ -67,11 +69,20 @@ var crApp = function() {
                     if (menuBtn) {
                         crCover.css('height', windowHeight - $('#cr-header').height());
                         menuBtn.on('click', function() {
+                            menuBtn.toggleClass('expanded');
                             crCover.toggle();
                         });
                         crCover.find('li').on('click', function() {
                             crCover.toggle();
                         });
+
+                        var crBackBtn = $('#cr-back-btn');
+                        crBackBtn.on('click', function() {
+                            crCover.hide();
+                            menuBtn.removeClass('expanded');
+                            window.history.back();
+                        });
+
                         clearInterval(interval);
                     }
                 }, 1000);
