@@ -1,7 +1,8 @@
 var CONFIG = {
     WEB_HOME_URL: 'https://dev.carrentals.com',
     WEB_BOOKING_URL: 'https://book.carrentals.com/bookings',
-    APP_VERSION: '0.0.3'
+    CLOSE_EMB_VIEW_URL: 'closewebview',
+    APP_VERSION: '0.0.5'
 };
 
 var app = (function(config, $) {
@@ -35,6 +36,9 @@ var app = (function(config, $) {
                    console.warn('Js file not loaded:', jsFileName);
                 });
         },
+        inlineCss: function(app, style, callback) {
+            app.insertCSS({code: style}, callback);
+        },
         css  : function(app, cssFileName, callback) {
             $.get(cssFileName)
                 .done(function(data) {
@@ -60,9 +64,16 @@ var app = (function(config, $) {
         // Application Constructor
         initialize: function() {
             this.bindEvents();
-            this.domReadyTests();
         },
-        domReadyTests: function() {
+        bindEvents: function() {
+            document.addEventListener('deviceready', this.onDeviceReady, false);
+            // TODO: connection status;
+            document.addEventListener('offline', this.onDeviceOffline, false);
+            document.addEventListener('online', this.onDeviceOnline, false);
+            //document.addEventListener('load', this.onDeviceOffline, false);
+            // TODO: native buttons behaviour;
+        },
+        onDeviceReady: function() {
             $(function() {
                 function launchInAppBrowser(evt) {
                     app.openWebApp(evt.data, homePageInjects, '_blank');
@@ -80,18 +91,6 @@ var app = (function(config, $) {
                     }
                 }, 2000);
             });
-        },
-        bindEvents: function() {
-            document.addEventListener('deviceready', this.onDeviceReady, false);
-            document.addEventListener('offline', this.onDeviceOffline, false);
-            document.addEventListener('online', this.onDeviceOnline, false);
-            //document.addEventListener('load', this.onDeviceOffline, false);
-            // TODO: native buttons behaviour;
-        },
-        onDeviceReady: function() {
-            //document.getElementById('gotoweb').onclick = function() {
-            //    app.openWebApp(config.WEB_HOME_URL, homePageInjects, '_blank');
-            //};
         },
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
@@ -117,12 +116,21 @@ var app = (function(config, $) {
                 link, target, 'location=no,toolbar=no'
             );
 
-            webApp.addEventListener('loadstart', function(data) {
-                console.info('WebView #2 loadstart event', data);
+            webApp.addEventListener('loadstart', function(event) {
+                console.info('WebView #2 loadstart event', event);
+                exec.inlineCss(webApp, 'body {display: none;}', function() {
+                    console.info('Hide body. Start loading', event);
+                });
+                if (event.url.match(config.CLOSE_EMB_VIEW_URL)) {
+                    webApp.close();
+                }
             });
 
-            webApp.addEventListener( "loadstop", function() {
+            webApp.addEventListener( "loadstop", function(event) {
                 console.info('WebView #2 loadstop');
+                exec.inlineCss(webApp, 'body {display: initial;}', function() {
+                    console.info('Show body. Stop loading', event);
+                });
                 exec.js(webApp, execParams.file.js);
                 exec.css(webApp, execParams.file.css);
             });
@@ -131,7 +139,6 @@ var app = (function(config, $) {
                 console.info('WebView #2 closed');
                 exec.flush();
             });
-            // TODO: back to cordova APP;
         }
     }
 })(CONFIG, $);

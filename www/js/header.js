@@ -11,13 +11,13 @@
 
     // TOOLS
     var eventsHandlerElement = 'body',
-        CR_BACK_BTN_ID = 'cr-back-btn';
+        CR_BACK_BTN_ID = 'cr-back-btn',
+        CR_ClOSE_EMBEDED_VIEW = 'cr-close-web-btn';
 
     function monitorLocation() {
         var currentLocation = location.pathname;
         setInterval(function() {
             if(currentLocation != location.pathname) {
-                //console.info('location change', currentLocation, location.pathname);
                 $(eventsHandlerElement).trigger("locationChange", {
                     old: currentLocation,
                     new: location.pathname
@@ -27,14 +27,21 @@
         }, 15);
     }
 
-    // UI
+    window.closeEmbededView = function() {
+        window.location.pathname = '/closewebview';
+    };
 
+    // UI
     function apendHeader() {
         var elm = $('#logo'),
             menuElm;
         elm.before('<a id="' + CR_BACK_BTN_ID + '" class="' + CR_BACK_BTN_ID + '" onclick="history.back();" style="display: none;"></a>');
 
         menuElm = elm.parent();
+
+        // TODO: Trigger back buttons on location change;
+        elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
+
         menuElm.css('height', '40px');
         $('body').find('section').first().css('top', menuElm.height());
     }
