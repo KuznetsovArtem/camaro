@@ -61,6 +61,10 @@ var app = (function(config, $) {
     };
 
     return {
+        webAppInstances : {},
+        getWebAppInstance: function(link) {
+            return app.webAppInstances[link];
+        },
         // Application Constructor
         initialize: function() {
             this.bindEvents();
@@ -73,12 +77,53 @@ var app = (function(config, $) {
             //document.addEventListener('load', this.onDeviceOffline, false);
             // TODO: native buttons behaviour;
         },
+        bindWebAppEvents: function(webApp, execParams) {
+            webApp.addEventListener('loadstart', function(event) {
+                console.info('WebView #2 loadstart event', event);
+                if (event.url.match(config.CLOSE_EMB_VIEW_URL)) {
+                    webApp.close();
+                }
+            });
+
+            webApp.addEventListener("loadstop", function(e) {
+                console.info('WebView #2 loadstop', e);
+                exec.js(webApp, execParams.file.js);
+                exec.css(webApp, execParams.file.css);
+            });
+
+            webApp.addEventListener('exit', function() {
+                console.info('WebView #2 closed');
+                exec.flush();
+                //TODO: create new instance;
+                setTimeout(function() {
+                    app.preload();
+                }, 500);
+
+            });
+        },
+        createWebAppInstance: function(link, injects) {
+            // TODO: fix booking page;
+            var target = target||'_blank';
+
+            app.webAppInstances[link] = cordova.InAppBrowser.open(
+                link, target, 'location=no,toolbar=no,hidden=yes'
+            );
+            app.bindWebAppEvents(app.webAppInstances[link], injects);
+        },
+        preload: function() {
+            // Load all web pages before open
+            app.webAppInstances = {};
+            //app.createWebAppInstance(config.WEB_BOOKING_URL, homePageInjects);
+            app.createWebAppInstance(config.WEB_HOME_URL, homePageInjects);
+        },
         onDeviceReady: function() {
+            //TODO: move to isOnline
+            app.preload();
+
             $(function() {
                 function launchInAppBrowser(evt) {
                     app.openWebApp(evt.data, homePageInjects, '_blank');
                 }
-                //$('#content').load('tpls/static.html');
                 var bodyElm = $('body');
                 bodyElm.on("click", '#gotoweb', config.WEB_HOME_URL, launchInAppBrowser);
                 bodyElm.on("click", '#gotobooking', config.WEB_BOOKING_URL, launchInAppBrowser);
@@ -94,51 +139,27 @@ var app = (function(config, $) {
         },
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
-            this.checkAppUpdates();
+            console.log('Device online!!!');
+            app.checkAppUpdates();
         },
         onDeviceOffline: function() {
-            this.showMessage('Offline (')
+            app.showMessage('Your device is offline :(');
+            console.log('Device offline!!!');
         },
         showMessage: function(msg) {
+            // TODO: nice UI;
             alert(msg);
         },
         checkAppUpdates: function() {
             //TODO: check app update
             console.info('Checking updates...', config.APP_VERSION);
         },
-        openWebApp: function(link, execParams, target) {
-
-            //if(!CONNECTION_STATUS) return this.onDeviceOffline();
-
-            var target = target||'_blank';
-
-            var webApp = cordova.InAppBrowser.open(
-                link, target, 'location=no,toolbar=no'
-            );
-
-            webApp.addEventListener('loadstart', function(event) {
-                console.info('WebView #2 loadstart event', event);
-                exec.inlineCss(webApp, 'body {display: none;}', function() {
-                    console.info('Hide body. Start loading', event);
-                });
-                if (event.url.match(config.CLOSE_EMB_VIEW_URL)) {
-                    webApp.close();
-                }
-            });
-
-            webApp.addEventListener( "loadstop", function(event) {
-                console.info('WebView #2 loadstop');
-                exec.inlineCss(webApp, 'body {display: initial;}', function() {
-                    console.info('Show body. Stop loading', event);
-                });
-                exec.js(webApp, execParams.file.js);
-                exec.css(webApp, execParams.file.css);
-            });
-
-            webApp.addEventListener('exit', function() {
-                console.info('WebView #2 closed');
-                exec.flush();
-            });
+        openWebApp: function(link) {
+            if(!CONNECTION_STATUS) return app.onDeviceOffline();
+            console.log('Open webApp', link, 'from', app.webAppInstances);
+            var webApp = app.getWebAppInstance(link);
+            console.log('Web app', webApp);
+            webApp.show();
         }
     }
 })(CONFIG, $);
