@@ -13,20 +13,29 @@
     background-color: transparent;
     border: none;
 }
-.cr-navbar .cr-menu-btn.expanded span:first-child,
-.cr-navbar .cr-menu-btn.collapsed span:last-child {
+.cr-navbar .cr-menu-btn.expanded a:first-child,
+.cr-navbar .cr-menu-btn.collapsed a:last-child {
     display: none;
 }
 .cr-navbar .cr-menu-btn {
     margin: 0 10px 0 0;
     padding: 0;
 }
+.cr-navbar .cr-menu-btn a {
+    color: #ffffff;
+}
+.cr-navbar .cr-menu-btn.expanded {
+    margin-top: 2px;
+}
+.cr-navbar .cr-menu-btn.expanded a {
+    color: #777;
+}
 .cr-navbar button:focus {
     outline: 0;
     border: none;
 }
-.cr-navbar .cr-menu-btn span,
-.cr-navbar .cr-menu-btn.expanded span:last-child {
+.cr-navbar .cr-menu-btn a,
+.cr-navbar .cr-menu-btn.expanded a:last-child {
     display: inline-block;
 }
 .cr-navbar .navbar-toggle .icon-bar {
@@ -38,13 +47,14 @@
     background-color: white;
     z-index: 1;
 }
-#cr-header .navbar-nav {
+#cr-cover .navbar-nav {
     margin: 0;
 }
-#cr-header .navbar-nav li {
+#cr-cover .navbar-nav li {
     border-top: 1px solid #888888;
 }
-#cr-navbar .navbar-nav li:first-child {
+#cr-cover .navbar-nav li:first-child {
+    border: none;
     font-weight: bold;
 }
 .cr-navbar .navbar-brand {
@@ -114,8 +124,9 @@ body.cr-content-home #cr-content {
     text-align: center;
 }
 #cr-content .cr-btn-area button {
+    font-size: 20px;
     margin-top: 20px;
-    padding: 15px;
+    padding: 10px;
     width: 75%;
 }
 #cr-content .cr-btn-area button .glyphicon {
@@ -123,18 +134,7 @@ body.cr-content-home #cr-content {
     margin-top: 2px;
 }
 
-#cr-cover {
-    background-color: #fff;
-    position: absolute;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    z-index: 1;
-}
-
-#cr-header .navbar-nav li a {
+#cr-cover .navbar-nav li a {
     padding: 15px;
 }
 
@@ -143,8 +143,13 @@ body.cr-content-home #cr-content {
 }
 .accordion {
     padding: 15px;
+    margin: 0;
 }
 .accordion .accordion-heading a,
 .accordion .panel-title a {
     color: #f37121;
+}
+
+.accordion .accordion-group {
+    margin-bottom: 10px;
 }

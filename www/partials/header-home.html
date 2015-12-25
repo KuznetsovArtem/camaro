@@ -3,24 +3,18 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="cr-back-btn" id="cr-back-btn"><span class="glyphicon glyphicon-menu-left"></span></button>
-                <button type="button" class="navbar-toggle collapsed cr-menu-btn" data-toggle="collapse"
-                        data-target="#app-links" aria-expanded="false" id="app-links-btn">
-                    <span class="glyphicon glyphicon-menu-hamburger"></span>
-                    <span class="glyphicon glyphicon-remove"></span>
+                <button type="button" class="navbar-toggle collapsed cr-menu-btn" aria-expanded="false" id="app-links-btn">
+                    <a href="#partials/more">
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                    </a>
+                    <a href="#">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
                 </button>
                 <img src="img/cr-logo-white.png" class="navbar-brand cr-logo-primary"/>
-                <span class="navbar-brand cr-logo-secondary"></span>
+                <span class="navbar-brand cr-logo-secondary">More</span>
             </div>
         </div>
     </nav>
 </header>
 
-<div id="cr-cover">
-    <ul class="nav navbar-nav">
-        <li class="dropdown" id="myBookingsMenu"><a href="#">My Bookings</a></li>
-        <li class="dropdown" cr-html="partials/policy"><a href="#partials/policy">Privacy Policy</a></li>
-        <li class="dropdown" cr-html="partials/terms"><a href="#partials/terms">Terms of Use</a></li>
-        <li class="dropdown" cr-html="partials/faq"><a href="#partials/faq">FAQ</a></li>
-        <li class="dropdown" id="contactUsMenu"><a href="mailto:support@carRentals.com">Contact Us</a></li>
-    </ul>
-</div>
