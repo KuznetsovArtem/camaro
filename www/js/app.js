@@ -74,7 +74,7 @@ var app = (function(config, $) {
             // TODO: connection status;
             document.addEventListener('offline', this.onDeviceOffline, false);
             document.addEventListener('online', this.onDeviceOnline, false);
-            //document.addEventListener('load', this.onDeviceOffline, false);
+            // document.addEventListener('load', this.onDeviceOffline, false);
             // TODO: native buttons behaviour;
         },
         bindWebAppEvents: function(webApp, execParams) {
@@ -122,7 +122,10 @@ var app = (function(config, $) {
 
             $(function() {
                 function launchInAppBrowser(evt) {
-                    app.openWebApp(evt.data, homePageInjects, '_blank');
+                    $('body').fadeOut('fast', function() {
+                        app.openWebApp(evt.data, homePageInjects, '_blank');
+                        $('body').show();
+                    })
                 }
                 var bodyElm = $('body');
                 bodyElm.on("click", '#gotoweb', config.WEB_HOME_URL, launchInAppBrowser);
