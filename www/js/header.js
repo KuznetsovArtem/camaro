@@ -12,7 +12,8 @@
     // TOOLS
     var eventsHandlerElement = 'body',
         CR_BACK_BTN_ID = 'cr-back-btn',
-        CR_ClOSE_EMBEDED_VIEW = 'cr-close-web-btn';
+        CR_ClOSE_EMBEDED_VIEW = 'cr-close-web-btn',
+        WEB_HOME_URL = 'https://dev.carrentals.com';
 
     function monitorLocation() {
         var currentLocation = location.pathname;
@@ -28,22 +29,31 @@
     }
 
     window.closeEmbededView = function() {
-        window.location.pathname = '/closewebview';
+        if(window.location.pathname === '/') {
+            window.location.pathname = '/closewebview';
+        }
+        else {
+            history.back();
+        }
     };
 
     // UI
     function apendHeader() {
-        var elm = $('#logo'),
+        var crHeaderBackBtn = $('#' + CR_BACK_BTN_ID),
+            elm = $('#logo'),
             menuElm;
-        elm.before('<a id="' + CR_BACK_BTN_ID + '" class="' + CR_BACK_BTN_ID + '" onclick="history.back();" style="display: none;"></a>');
-
-        menuElm = elm.parent();
+        menuElm = $('#main-header');
 
         // TODO: Trigger back buttons on location change;
         elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
-
-        menuElm.css('height', '40px');
-        $('body').find('section').first().css('top', menuElm.height());
+        elm.parent().css('height', '46px');
+        menuElm.find('nav').find('ul').before('<ul class="nav navbar-nav">' +
+                '<li class="dropdown" id="myBookingsMenu"><a href="' + WEB_HOME_URL + '/bookings">Reservations</a></li>' +
+                '<li class="dropdown" cr-html="partials/policy"><a href="' + WEB_HOME_URL + '/privacy-policy">Privacy Policy</a></li>' +
+                '<li class="dropdown" cr-html="partials/terms"><a href="' + WEB_HOME_URL + '/terms">Terms of Use</a></li>' +
+                '<li class="dropdown" cr-html="partials/faq"><a href="' + WEB_HOME_URL + '/faq">FAQ</a></li>' +
+                '<li class="dropdown" id="contactUsMenu"><a href="mailto:support@carRentals.com">Contact Us</a></li>' +
+                '</ul>');
     }
 
     var makeChanges = function() {
@@ -53,29 +63,7 @@
     };
 
     $(eventsHandlerElement).on("locationChange", function(e, location) {
-        var crHeaderBackBtn = $('#' + CR_BACK_BTN_ID);
-        switch (location.new) {
-            case '/':
-                if (crHeaderBackBtn.length !== 0) {
-                    crHeaderBackBtn.hide();
-                } else {
-                    apendHeader();
-                }
-            break;
-            default :
-                if (crHeaderBackBtn.length !== 0) {
-                    crHeaderBackBtn.show();
-                } else {
-                    apendHeader();
-                    var popupElm = $('body').find('.reveal-modal');
-                    if (popupElm.length !== 0) {
-                        popupElm.css('top', $('#main-header').height());
-                    }
-                    crHeaderBackBtn.toggle();
-                }
-                break;
-        }
-
+        apendHeader();
         makeChanges();
     });
 

@@ -23,7 +23,7 @@ var app = (function(config, $) {
         },
         js : function(app, jsFileName, callack) {
             if($.inArray(jsFileName, exec.loadedFiles) !== -1) {
-                return console.warn(jsFileName, 'already loaded');
+                //return console.warn(jsFileName, 'already loaded');
             }
             $.get(jsFileName)
                 .done(function(data) {
@@ -87,8 +87,8 @@ var app = (function(config, $) {
 
             webApp.addEventListener("loadstop", function(e) {
                 console.info('WebView #2 loadstop', e);
-                exec.js(webApp, execParams.file.js);
                 exec.css(webApp, execParams.file.css);
+                exec.js(webApp, execParams.file.js);
             });
 
             webApp.addEventListener('exit', function() {
