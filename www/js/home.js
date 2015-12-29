@@ -5,7 +5,6 @@ var crApp = function() {
         var currentLocation = location.hash;
         setInterval(function() {
             if(currentLocation != location.hash) {
-                console.info('location change', currentLocation, location.hash);
                 $(eventsHandlerElement).trigger("locationChange", {
                     old: currentLocation,
                     new: location.hash
@@ -32,13 +31,17 @@ var crApp = function() {
             $('body').removeClass('cr-content-home');
         }
         partials.load(partialPath + '.html', null, function() {
-            $('#app-links-btn').removeClass('expanded');
+            if (desc === '') {
+                $('#app-links-btn').removeClass('expanded');
+            } else {
+                $('#app-links-btn').addClass('expanded');
+            }
         });
     };
 
     $(eventsHandlerElement).on("locationChange", function(e, location) {
         switch (location.new) {
-            case '/index':
+            case '':
                 loadPartialContent(location.new, '');
                 break;
             case '#partials/policy':
@@ -51,7 +54,7 @@ var crApp = function() {
                 loadPartialContent(location.new, 'FAQ');
                 break;
             default :
-                loadPartialContent(location.new, '');
+                loadPartialContent(location.new, 'More');
                 break;
         }
 
@@ -64,22 +67,14 @@ var crApp = function() {
 
                 var windowHeight = $(document).height();
                 var interval = setInterval(function(){
-                    var menuBtn = $('#app-links-btn'),
-                        crCover = $('#cr-cover');
+                    var menuBtn = $('#app-links-btn');
                     if (menuBtn) {
-                        crCover.css('height', windowHeight - $('#cr-header').height());
                         menuBtn.on('click', function() {
-                            menuBtn.toggleClass('expanded');
-                            crCover.toggle();
-                        });
-                        crCover.find('li').on('click', function() {
-                            crCover.toggle();
+                            menuBtn.addClass('expanded');
                         });
 
                         var crBackBtn = $('#cr-back-btn');
                         crBackBtn.on('click', function() {
-                            crCover.hide();
-                            menuBtn.removeClass('expanded');
                             window.history.back();
                         });
 
@@ -102,6 +97,9 @@ var crApp = function() {
                     crApp.loadContent(partialElm.find('div[cr-html]'));
                 });
             })
+        },
+        openExternalLink : function(link) {
+            window.open(link, "_system");
         }
     }
 }();
