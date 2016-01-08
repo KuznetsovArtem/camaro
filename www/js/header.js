@@ -59,6 +59,8 @@
     var makeChanges = function() {
         $(function() {
             $('#suppliers, #confidence, #main-footer, #feedbackify').hide();
+
+            $('body').addClass('page-background');
         });
     };
 
