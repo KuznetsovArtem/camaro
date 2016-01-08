@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.carrentals.webapp" version="0.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.carrentals.webapp" version="0.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Carrentals</name>
     <description>
-        Carrentals.com web app wrapper
+        Carrentals.com wrapped webapp
     </description>
     <author email="dev.artem.kuznetsov@gmail.com" href="">
         Artem Kuznetsov
@@ -18,6 +18,8 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <preference name="Orientation" value="portrait" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="StatusBarBackgroundColor" value="#ffffff" />
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
@@ -29,4 +31,5 @@
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <plugin name="cordova-plugin-inappbrowser" spec="^1.1.1" />
     <plugin name="cordova-plugin-network-information" spec="^1.1.0" />
+    <plugin name="cordova-plugin-statusbar" spec="^2.0.0" />
 </widget>
