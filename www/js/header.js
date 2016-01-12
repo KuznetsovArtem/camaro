@@ -29,7 +29,7 @@
     }
 
     window.closeEmbededView = function() {
-        if(window.location.pathname === '/') {
+        if(window.location.pathname === '/' || window.location.pathname === '/bookings') {
             window.location.pathname = '/closewebview';
         }
         else {
@@ -44,6 +44,9 @@
             menuElm;
         menuElm = $('#main-header');
 
+        if ($('#' + CR_ClOSE_EMBEDED_VIEW).length > 0) {
+            return;
+        }
         // TODO: Trigger back buttons on location change;
         elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
         elm.parent().css('height', '46px');

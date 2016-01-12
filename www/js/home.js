@@ -32,9 +32,11 @@ var crApp = function() {
         }
         partials.load(partialPath + '.html', null, function() {
             if (desc === '') {
-                $('#app-links-btn').removeClass('expanded');
+                $('#app-links-btn').find('.hamburger-icon').removeClass('open');
+                $('#app-links-btn').find('a').attr('href', '#partials/more');
             } else {
-                $('#app-links-btn').addClass('expanded');
+                $('#app-links-btn').find('.hamburger-icon').addClass('open');
+                $('#app-links-btn').find('a').attr('href', '#');
             }
         });
     };
@@ -54,7 +56,7 @@ var crApp = function() {
                 loadPartialContent(location.new, 'FAQ');
                 break;
             default :
-                loadPartialContent(location.new, 'More');
+                loadPartialContent(location.new, 'Options');
                 break;
         }
 
@@ -70,7 +72,7 @@ var crApp = function() {
                     var menuBtn = $('#app-links-btn');
                     if (menuBtn) {
                         menuBtn.on('click', function() {
-                            menuBtn.addClass('expanded');
+                            menuBtn.find('.hamburger-icon').addClass('open');
                         });
 
                         var crBackBtn = $('#cr-back-btn');

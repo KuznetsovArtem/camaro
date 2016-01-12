@@ -133,14 +133,24 @@ var app = (function(config, $) {
 
             $(function() {
                 function launchInAppBrowser(evt) {
+                    var btnWrapper = evt.data[1];
+                    $(btnWrapper).find('span').each(function() {
+                        $(this).toggleClass('hide');
+                    });
                     $('body').fadeOut('fast', function() {
-                        app.openWebApp(evt.data, homePageInjects, '_blank');
+                        app.openWebApp(evt.data[0], homePageInjects, '_blank');
                         $('body').show();
+                        var interval = setInterval(function() {
+                            $(btnWrapper).find('span').each(function() {
+                                $(this).toggleClass('hide');
+                            });
+                            clearInterval(interval);
+                        }, 2000)
                     })
                 }
                 var bodyElm = $('body');
-                bodyElm.on("click", '#gotoweb', config.WEB_HOME_URL, launchInAppBrowser);
-                bodyElm.on("click", '#gotobooking', config.WEB_BOOKING_URL, launchInAppBrowser);
+                bodyElm.on("click", '#gotoweb', [config.WEB_HOME_URL, '#gotoweb'], launchInAppBrowser);
+                bodyElm.on("click", '#gotobooking', [config.WEB_BOOKING_URL, '#gotobooking'], launchInAppBrowser);
 
                 var interval = setInterval(function() {
                     var crHeaderBookings = $('#myBookingsMenu');
