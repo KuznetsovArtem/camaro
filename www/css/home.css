@@ -6,6 +6,7 @@
     box-shadow: none;
     border: none;
     margin-bottom: 0;
+    margin-top: 10px;
 }
 .cr-navbar .navbar-toggle,
 .cr-navbar .navbar-toggle:hover,
