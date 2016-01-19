@@ -125,6 +125,10 @@ var app = (function(config, $) {
             return app.webAppInstances[link];
         },
         updateUrls: function(param) {
+            if (config.WEB_HOME_URL.indexOf('?') !== -1) {
+                return;
+            }
+
             config.WEB_HOME_URL = [
                 config.WEB_HOME_URL,
                 param
