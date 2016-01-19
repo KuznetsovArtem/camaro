@@ -61,7 +61,7 @@
 
     var makeChanges = function() {
         $(function() {
-            $('#suppliers, #confidence, #main-footer, #feedbackify').hide();
+            $('#suppliers, #confidence, #main-footer, #feedbackify, .getstarted-message').hide();
 
             $('body').addClass('page-background');
         });

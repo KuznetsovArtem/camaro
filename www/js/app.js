@@ -1,8 +1,10 @@
 var CONFIG = {
-    WEB_HOME_URL: 'https://www2.carrentals.com/',
+    WEB_HOME_URL: 'https://www2.carrentals.com',
     WEB_BOOKING_URL: 'https://book.carrentals.com/bookings',
+    ANDROID_DEVICE_PARAM: 'androidapp',
+    IOS_DEVICE_PARAM: 'iosapp',
     CLOSE_EMB_VIEW_URL: 'closewebview',
-    APP_VERSION: '0.0.6'
+    APP_VERSION: '0.0.7'
 };
 
 var app = (function(config, $) {
@@ -122,9 +124,32 @@ var app = (function(config, $) {
             app.bindWebAppEvents(app.webAppInstances[link], injects, showOnLoad);
             return app.webAppInstances[link];
         },
+        updateUrls: function(param) {
+            config.WEB_HOME_URL = [
+                config.WEB_HOME_URL,
+                param
+            ].join('?');
+            config.WEB_BOOKING_URL = [
+                config.WEB_BOOKING_URL,
+                param
+            ].join('?');
+        },
         preloadHomePage: function() {
             // Load all web pages before open
             app.webAppInstances = {};
+
+            // Identify device
+            var devicePlatform = device.platform;
+            if (devicePlatform.toLowerCase().indexOf('android') !== -1) {
+                app.updateUrls(config.ANDROID_DEVICE_PARAM);
+            }
+            else if (devicePlatform.toLowerCase().indexOf('ios') !== -1) {
+                app.updateUrls(config.IOS_DEVICE_PARAM);
+            }
+            else {
+                app.showMessage('We are sorry but we don\'t support your device on ' + devicePlatform);
+                return;
+            }
             //app.createWebAppInstance(config.WEB_BOOKING_URL, homePageInjects);
             app.createWebAppInstance(config.WEB_HOME_URL, homePageInjects);
         },
@@ -172,8 +197,7 @@ var app = (function(config, $) {
             console.log('Device offline!!!');
         },
         showMessage: function(msg) {
-            // TODO: nice UI;
-            alert(msg);
+            navigator.notification.alert(msg, null, 'CarRentals.com');
         },
         checkAppUpdates: function() {
             //TODO: check app update
