@@ -1,6 +1,7 @@
 var CONFIG = {
-    WEB_HOME_URL: 'https://www2.carrentals.com/',
+    WEB_HOME_URL: 'https://www2.carrentals.com',
     WEB_BOOKING_URL: 'https://book.carrentals.com/bookings',
+    DEVICE_PARAM: '',
     CLOSE_EMB_VIEW_URL: 'closewebview',
     APP_VERSION: '0.0.6'
 };
@@ -125,6 +126,22 @@ var app = (function(config, $) {
         preloadHomePage: function() {
             // Load all web pages before open
             app.webAppInstances = {};
+
+            // Identify device
+            var devicePlatform = device.platform;
+            if (devicePlatform.toLowerCase().indexOf('android') !== -1) {
+                config.DEVICE_PARAM = '/?androidapp';
+            }
+            else if (devicePlatform.toLowerCase().indexOf('ios') !== -1) {
+                config.DEVICE_PARAM = '/?iosapp';
+            }
+            else {
+                app.showMessage('We are sorry but we don\'t support your device on ' + devicePlatform);
+                return;
+            }
+            config.WEB_HOME_URL += config.DEVICE_PARAM;
+            config.WEB_BOOKING_URL += config.DEVICE_PARAM;
+
             //app.createWebAppInstance(config.WEB_BOOKING_URL, homePageInjects);
             app.createWebAppInstance(config.WEB_HOME_URL, homePageInjects);
         },
@@ -172,8 +189,7 @@ var app = (function(config, $) {
             console.log('Device offline!!!');
         },
         showMessage: function(msg) {
-            // TODO: nice UI;
-            alert(msg);
+            navigator.notification.alert(msg, null, 'CarRentals.com');
         },
         checkAppUpdates: function() {
             //TODO: check app update

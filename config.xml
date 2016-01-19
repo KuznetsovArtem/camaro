@@ -22,14 +22,21 @@
     <preference name="StatusBarBackgroundColor" value="#ffffff" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <icon src="www/img/screen-logo.png" />
+        <splash density="port-ldpi" src="www/img/splash-bg.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <icon src="www/img/screen-logo.png" />
+        <splash src="www/img/splash-bg.png" />
     </platform>
     <engine name="android" spec="^4.0.0" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <plugin name="cordova-plugin-inappbrowser" spec="^1.1.1" />
     <plugin name="cordova-plugin-network-information" spec="^1.1.0" />
     <plugin name="cordova-plugin-statusbar" spec="^2.0.0" />
+    <plugin name="cordova-plugin-device" spec="https://git-wip-us.apache.org/repos/asf/cordova-plugin-device.git" />
+    <plugin name="cordova-plugin-dialogs" spec="~1.2.0" />
+    <plugin name="cordova-plugin-splashscreen" spec="~3.0.0" />
 </widget>
