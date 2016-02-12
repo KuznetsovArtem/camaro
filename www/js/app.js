@@ -80,6 +80,18 @@ var app = (function(config, $) {
             // TODO: native buttons behaviour;
         },
         bindWebAppEvents: function(webApp, execParams, showOnLoad) {
+            /* TODO: trying to apply smooth page switching */
+            var currentLocation = location.pathname;
+            var loadFlag = false;
+            var interval = setInterval(function() {
+                if(currentLocation.indexOf('goto') !== -1 /*|| currentLocation === '/'*/) {
+                    exec.css(webApp, execParams.file.css);
+                    exec.js(webApp, execParams.file.js);
+                    loadFlag = true;
+                    clearInterval(interval);
+                }
+            }, 15);
+            /* -- */
             webApp.addEventListener('loadstart', function(event) {
                 console.info('WebView #2 loadstart event', event);
                 if (event.url.match(config.CLOSE_EMB_VIEW_URL)) {
@@ -89,8 +101,13 @@ var app = (function(config, $) {
 
             webApp.addEventListener("loadstop", function(e) {
                 console.info('WebView #2 loadstop', e);
-                exec.css(webApp, execParams.file.css);
-                exec.js(webApp, execParams.file.js);
+                if (!loadFlag) {
+                    exec.css(webApp, execParams.file.css);
+                    exec.js(webApp, execParams.file.js);
+                }
+                if (loadFlag) {
+                    loadFlag = false;
+                }
                 if(showOnLoad) {
                     webApp.show();
                 }
