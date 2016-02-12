@@ -143,6 +143,14 @@ var app = (function(config, $) {
             return app.webAppInstances[link];
         },
         updateUrls: function(param) {
+            // Swap URLs when www version will be set to 100%
+            // this URL check should be removed after that ASAP
+            $.get(config.WEB_HOME_URL + '/page/rss').always(function(xhr) {
+                if(xhr.readyState === 4 && xhr.status !== 404) {
+                    config.WEB_HOME_URL.replace('www2', 'www');
+                }
+            });
+
             if (config.WEB_HOME_URL.indexOf('?') !== -1) {
                 return;
             }

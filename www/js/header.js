@@ -13,7 +13,7 @@
     var eventsHandlerElement = 'body',
         CR_BACK_BTN_ID = 'cr-back-btn',
         CR_ClOSE_EMBEDED_VIEW = 'cr-close-web-btn',
-        WEB_HOME_URL = 'https://dev.carrentals.com';
+        WEB_HOME_URL = 'https://www2.carrentals.com';
 
     function monitorLocation() {
         var currentLocation = location.pathname;
@@ -29,7 +29,11 @@
     }
 
     window.closeEmbededView = function() {
-        if(window.location.pathname === '/' || window.location.pathname === '/bookings') {
+        var pathname = window.location.pathname;
+        if(pathname === '/offers' || pathname === '/goto') {
+            window.location = WEB_HOME_URL;
+        }
+        else if(pathname === '/' || pathname === '/bookings') {
             window.location.pathname = '/closewebview';
         }
         else {
