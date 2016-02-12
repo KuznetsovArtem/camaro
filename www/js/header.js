@@ -14,6 +14,7 @@
         CR_BACK_BTN_ID = 'cr-back-btn',
         CR_ClOSE_EMBEDED_VIEW = 'cr-close-web-btn',
         WEB_HOME_URL = 'https://www2.carrentals.com';
+        // TODO: update this url;
 
     function monitorLocation() {
         var currentLocation = location.pathname;

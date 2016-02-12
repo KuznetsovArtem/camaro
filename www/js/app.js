@@ -148,20 +148,21 @@ var app = (function(config, $) {
             $.get(config.WEB_HOME_URL + '/page/rss').always(function(xhr) {
                 if(xhr.readyState === 4 && xhr.status !== 404) {
                     config.WEB_HOME_URL.replace('www2', 'www');
+                    // todo: emit event and refresh all urls
                 }
-                if (config.WEB_HOME_URL.indexOf('?') !== -1) {
-                    return;
-                }
-
-                config.WEB_HOME_URL = [
-                    config.WEB_HOME_URL,
-                    param
-                ].join('?');
-                config.WEB_BOOKING_URL = [
-                    config.WEB_BOOKING_URL,
-                    param
-                ].join('?');
             });
+
+            if (config.WEB_HOME_URL.indexOf('?') !== -1) {
+                return;
+            }
+            config.WEB_HOME_URL = [
+                config.WEB_HOME_URL,
+                param
+            ].join('?');
+            config.WEB_BOOKING_URL = [
+                config.WEB_BOOKING_URL,
+                param
+            ].join('?');
         },
         preloadHomePage: function() {
             // Load all web pages before open
@@ -191,8 +192,15 @@ var app = (function(config, $) {
                     $(btnWrapper).find('span').each(function() {
                         $(this).toggleClass('hide');
                     });
+
+                    var link ;
+                    if(btnWrapper === '#gotoweb') {
+                        link = config.WEB_HOME_URL
+                    } else {
+                        link = config.WEB_BOOKING_URL
+                    }
                     $('body').fadeOut('fast', function() {
-                        app.openWebApp(evt.data[0], homePageInjects, '_blank');
+                        app.openWebApp(link, homePageInjects, '_blank');
                         $('body').show();
                         var interval = setInterval(function() {
                             $(btnWrapper).find('span').each(function() {
@@ -218,7 +226,7 @@ var app = (function(config, $) {
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
             console.log('Device online!!!');
-            app.preloadHomePage();
+            //app.preloadHomePage();
             //app.checkAppUpdates();
         },
         onDeviceOffline: function() {
@@ -237,6 +245,8 @@ var app = (function(config, $) {
             console.info('Checking updates...', config.APP_VERSION);
         },
         openWebApp: function(link) {
+
+            console.info('Debug: link', link)
             if(!CONNECTION_STATUS) return app.onDeviceOffline();
             console.log('Open webApp', link, 'from', app.webAppInstances);
 
