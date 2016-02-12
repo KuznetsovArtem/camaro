@@ -149,20 +149,19 @@ var app = (function(config, $) {
                 if(xhr.readyState === 4 && xhr.status !== 404) {
                     config.WEB_HOME_URL.replace('www2', 'www');
                 }
+                if (config.WEB_HOME_URL.indexOf('?') !== -1) {
+                    return;
+                }
+
+                config.WEB_HOME_URL = [
+                    config.WEB_HOME_URL,
+                    param
+                ].join('?');
+                config.WEB_BOOKING_URL = [
+                    config.WEB_BOOKING_URL,
+                    param
+                ].join('?');
             });
-
-            if (config.WEB_HOME_URL.indexOf('?') !== -1) {
-                return;
-            }
-
-            config.WEB_HOME_URL = [
-                config.WEB_HOME_URL,
-                param
-            ].join('?');
-            config.WEB_BOOKING_URL = [
-                config.WEB_BOOKING_URL,
-                param
-            ].join('?');
         },
         preloadHomePage: function() {
             // Load all web pages before open
@@ -184,7 +183,7 @@ var app = (function(config, $) {
             app.createWebAppInstance(config.WEB_HOME_URL, homePageInjects);
         },
         onDeviceReady: function() {
-            //app.preloadHomePage();
+            app.preloadHomePage();
 
             $(function() {
                 function launchInAppBrowser(evt) {
@@ -219,8 +218,8 @@ var app = (function(config, $) {
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
             console.log('Device online!!!');
-            app.checkAppUpdates();
             app.preloadHomePage();
+            //app.checkAppUpdates();
         },
         onDeviceOffline: function() {
             app.showMessage("Cannot connect to the internet.\nCheck your settings and try again.");
