@@ -97,6 +97,7 @@ var app = (function(config, $) {
                 if (event.url.match(config.CLOSE_EMB_VIEW_URL)) {
                     webApp.close();
                 }
+                exec.js(webApp, 'js/hide.js');
             });
 
             webApp.addEventListener("loadstop", function(e) {
@@ -175,7 +176,7 @@ var app = (function(config, $) {
             app.createWebAppInstance(config.WEB_HOME_URL, homePageInjects);
         },
         onDeviceReady: function() {
-            app.preloadHomePage();
+            //app.preloadHomePage();
 
             $(function() {
                 function launchInAppBrowser(evt) {
@@ -211,10 +212,10 @@ var app = (function(config, $) {
             CONNECTION_STATUS = true;
             console.log('Device online!!!');
             app.checkAppUpdates();
+            app.preloadHomePage();
         },
         onDeviceOffline: function() {
-            app.showMessage("Cannot connect to the internet. \
-                            \nCheck your settings and try again.");
+            app.showMessage("Cannot connect to the internet.\nCheck your settings and try again.");
             console.log('Device offline!!!');
         },
         showMessage: function(msg) {
@@ -222,6 +223,10 @@ var app = (function(config, $) {
         },
         checkAppUpdates: function() {
             //TODO: check app update
+            navigator.notification.confirm(
+                'There is a newer version of app \n available. Update now?',
+                'Update Available',
+                ['Not Now', 'Not Now']);
             console.info('Checking updates...', config.APP_VERSION);
         },
         openWebApp: function(link) {
