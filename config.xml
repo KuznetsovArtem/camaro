@@ -22,13 +22,13 @@
     <preference name="StatusBarBackgroundColor" value="#ffffff" />
     <platform name="android">
         <allow-intent href="market:*" />
-        <icon src="www/img/screen-logo.png" />
+        <icon src="www/img/app-icon.png" />
         <splash density="port-ldpi" src="www/img/splash-bg.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <icon src="www/img/screen-logo.png" />
+        <icon src="www/img/app-icon.png" width="120" height="120" />
         <splash src="www/img/splash-bg.png" />
     </platform>
     <engine name="android" spec="^4.0.0" />

@@ -5,8 +5,8 @@
     background: transparent;
     box-shadow: none;
     border: none;
-    margin-bottom: 0;
     margin-top: 10px;
+    margin-bottom: 0;
 }
 .cr-navbar .navbar-toggle,
 .cr-navbar .navbar-toggle:hover,
