@@ -51,6 +51,11 @@
         if ($('#' + CR_ClOSE_EMBEDED_VIEW).length > 0) {
             return;
         }
+        elm.on('click', function(evt) {
+            evt.stopPropagation();
+            evt.preventDefault()
+            return false;
+        });
         // TODO: Trigger back buttons on location change;
         elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
         elm.before('<div id="closeIcon" class="hamburger-icon open" style="display: none !important; float: left !important;">' +
@@ -60,11 +65,11 @@
             '</div>');
         elm.parent().css('height', '46px');
         menuElm.find('nav').find('ul').before('<ul class="nav navbar-nav">' +
-                '<li class="dropdown" id="myBookingsMenu"><a href="' + WEB_HOME_URL + '/bookings">My Reservations</a></li>' +
-                '<li class="dropdown" cr-html="partials/policy"><a href="' + WEB_HOME_URL + '/privacy-policy">Privacy Policy</a></li>' +
+                '<li id="myBookingsMenu"><a href="' + WEB_HOME_URL + '/bookings">My Reservations</a></li>' +
+                /*'<li class="dropdown" cr-html="partials/policy"><a href="' + WEB_HOME_URL + '/privacy-policy">Privacy Policy</a></li>' +
                 '<li class="dropdown" cr-html="partials/terms"><a href="' + WEB_HOME_URL + '/terms">Terms of Use</a></li>' +
-                '<li class="dropdown" cr-html="partials/faq"><a href="' + WEB_HOME_URL + '/faq">FAQ</a></li>' +
-                '<li class="dropdown" id="contactUsMenu"><a href="mailto:support@carRentals.com">Contact Us</a></li>' +
+                '<li class="dropdown" cr-html="partials/faq"><a href="' + WEB_HOME_URL + '/faq">FAQ</a></li>' +*/
+                '<li id="contactUsMenu"><a href="mailto:support@carRentals.com; return false;">Contact Us</a></li>' +
                 '</ul>');
 
         function runOpenListener() {
