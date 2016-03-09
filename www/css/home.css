@@ -54,10 +54,10 @@
 }
 #cr-cover .navbar-nav li:first-child {
     border: none;
-    font-weight: bold;
 }
 .cr-navbar .navbar-brand {
     float: none;
+    margin-left: 40px;
 }
 .cr-navbar {
     text-align: center;

@@ -189,25 +189,30 @@ var app = (function(config, $) {
             $(function() {
                 function launchInAppBrowser(evt) {
                     var btnWrapper = evt.data[1];
-                    $(btnWrapper).find('span').each(function() {
-                        $(this).toggleClass('hide');
-                    });
-
+                    if (btnWrapper !== null) {
+                        $(btnWrapper).find('span').each(function() {
+                            $(this).toggleClass('hide');
+                        });
+                    }
                     var link ;
                     if(btnWrapper === '#gotoweb') {
                         link = config.WEB_HOME_URL
-                    } else {
+                    } else if (btnWrapper === '#gotobooking') {
                         link = config.WEB_BOOKING_URL
+                    } else {
+                        link = evt.data[0];
                     }
                     $('body').fadeOut('fast', function() {
                         app.openWebApp(link, homePageInjects, '_blank');
                         $('body').show();
-                        var interval = setInterval(function() {
-                            $(btnWrapper).find('span').each(function() {
-                                $(this).toggleClass('hide');
-                            });
-                            clearInterval(interval);
-                        }, 2000)
+                        if (btnWrapper !== null) {
+                            var interval = setInterval(function() {
+                                $(btnWrapper).find('span').each(function() {
+                                    $(this).toggleClass('hide');
+                                });
+                                clearInterval(interval);
+                            }, 200);
+                        }
                     })
                 }
                 var bodyElm = $('body');
@@ -217,10 +222,10 @@ var app = (function(config, $) {
                 var interval = setInterval(function() {
                     var crHeaderBookings = $('#myBookingsMenu');
                     if (crHeaderBookings.length > 0) {
-                        crHeaderBookings.on('click', null, config.WEB_BOOKING_URL, launchInAppBrowser);
+                        crHeaderBookings.on('click', null, [config.WEB_BOOKING_URL, null], launchInAppBrowser);
                         clearInterval(interval);
                     }
-                }, 2000);
+                }, 200);
             });
         },
         onDeviceOnline: function() {
