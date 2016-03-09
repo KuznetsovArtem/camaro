@@ -97,6 +97,7 @@ var app = (function(config, $) {
                 if (event.url.match(config.CLOSE_EMB_VIEW_URL)) {
                     webApp.close();
                 }
+                exec.js(webApp, 'js/hide.js');
             });
 
             webApp.addEventListener("loadstop", function(e) {
@@ -147,13 +148,13 @@ var app = (function(config, $) {
             $.get(config.WEB_HOME_URL + '/page/rss').always(function(xhr) {
                 if(xhr.readyState === 4 && xhr.status !== 404) {
                     config.WEB_HOME_URL.replace('www2', 'www');
+                    // todo: emit event and refresh all urls
                 }
             });
 
             if (config.WEB_HOME_URL.indexOf('?') !== -1) {
                 return;
             }
-
             config.WEB_HOME_URL = [
                 config.WEB_HOME_URL,
                 param
@@ -193,8 +194,16 @@ var app = (function(config, $) {
                             $(this).toggleClass('hide');
                         });
                     }
+                    var link ;
+                    if(btnWrapper === '#gotoweb') {
+                        link = config.WEB_HOME_URL
+                    } else if (btnWrapper === '#gotobooking') {
+                        link = config.WEB_BOOKING_URL
+                    } else {
+                        link = evt.data[0];
+                    }
                     $('body').fadeOut('fast', function() {
-                        app.openWebApp(evt.data[0], homePageInjects, '_blank');
+                        app.openWebApp(link, homePageInjects, '_blank');
                         $('body').show();
                         if (btnWrapper !== null) {
                             var interval = setInterval(function() {
@@ -222,11 +231,11 @@ var app = (function(config, $) {
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
             console.log('Device online!!!');
-            app.checkAppUpdates();
+            //app.preloadHomePage();
+            //app.checkAppUpdates();
         },
         onDeviceOffline: function() {
-            app.showMessage("Cannot connect to the internet. \
-                            \nCheck your settings and try again.");
+            app.showMessage("Cannot connect to the internet.\nCheck your settings and try again.");
             console.log('Device offline!!!');
         },
         showMessage: function(msg) {
@@ -234,9 +243,15 @@ var app = (function(config, $) {
         },
         checkAppUpdates: function() {
             //TODO: check app update
+            navigator.notification.confirm(
+                'There is a newer version of app \n available. Update now?',
+                'Update Available',
+                ['Not Now', 'Not Now']);
             console.info('Checking updates...', config.APP_VERSION);
         },
         openWebApp: function(link) {
+
+            console.info('Debug: link', link)
             if(!CONNECTION_STATUS) return app.onDeviceOffline();
             console.log('Open webApp', link, 'from', app.webAppInstances);
 
