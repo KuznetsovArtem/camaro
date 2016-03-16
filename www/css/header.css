@@ -43,9 +43,9 @@ body, html {
     margin-top: 2px;
     display: inline-block;
 }
-#main-header nav ul:last-child {
+/*#main-header nav ul:last-child {
     display: none;
-}
+}*/
 #main-header nav ul li {
     text-align: left;
 }
@@ -65,6 +65,9 @@ header + div {
 .pika-single {
     margin-top: 40px !important;
 }
+.pika-single .pikaday-container h4 i {
+    display: none !important;
+}
 
 /*rem old ff bg*/
 .key-visual-headline,
@@ -74,6 +77,9 @@ header + div {
     background-image: none !important;
     background-color: transparent !important;
 }
-#suppliers, #confidence, #main-footer, #feedbackify, .getstarted-message {
+#suppliers, #confidence, #main-footer, #feedbackify a, .getstarted-message {
     display: none !important;
+}
+#feedbackify #fbya #fbyb div.fby-form-content {
+    margin-top: 40px !important;
 }
