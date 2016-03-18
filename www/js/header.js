@@ -54,7 +54,7 @@
         }
         elm.on('click', function(evt) {
             evt.stopPropagation();
-            evt.preventDefault()
+            evt.preventDefault();
             return false;
         });
         // TODO: Trigger back buttons on location change;
@@ -65,13 +65,7 @@
             '<span></span>' +
             '</div>');
         elm.parent().css('height', '46px');
-        menuElm.find('nav').find('ul').before('<ul class="nav navbar-nav">' +
-                '<li id="myBookingsMenu"><a href="' + WEB_HOME_URL + '/bookings">My Reservations</a></li>' +
-                /*'<li class="dropdown" cr-html="partials/policy"><a href="' + WEB_HOME_URL + '/privacy-policy">Privacy Policy</a></li>' +
-                '<li class="dropdown" cr-html="partials/terms"><a href="' + WEB_HOME_URL + '/terms">Terms of Use</a></li>' +
-                '<li class="dropdown" cr-html="partials/faq"><a href="' + WEB_HOME_URL + '/faq">FAQ</a></li>' +*/
-                '<li id="contactUsMenu"><a href="mailto:support@carRentals.com; return false;">Contact Us</a></li>' +
-                '</ul>');
+        menuElm.find('nav').find('ul').find('li').last().after('<li id="contactUsMenu"><a href="mailto:support@carRentals.com; return false;">Contact Us</a></li>');
 
         function runOpenListener() {
             var runInterval= setInterval(function() {
@@ -101,7 +95,7 @@
 
     var makeChanges = function() {
         $(function() {
-            $('#suppliers, #confidence, #main-footer, #feedbackify, .getstarted-message').hide();
+            $('#suppliers, #confidence, #main-footer, #feedbackify a, .getstarted-message').hide();
 
             if(window.location.pathname == '/') {
                 $('body').addClass('page-background')

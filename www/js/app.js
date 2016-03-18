@@ -222,7 +222,7 @@ var app = (function(config, $) {
                 var interval = setInterval(function() {
                     var crHeaderBookings = $('#myBookingsMenu');
                     if (crHeaderBookings.length > 0) {
-                        crHeaderBookings.on('click', null, [config.WEB_BOOKING_URL, null], launchInAppBrowser);
+                        crHeaderBookings.on('click', null, [config.WEB_BOOKING_URL, '#gotobooking'], launchInAppBrowser);
                         clearInterval(interval);
                     }
                 }, 200);
