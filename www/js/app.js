@@ -4,7 +4,7 @@ var CONFIG = {
     ANDROID_DEVICE_PARAM: 'androidapp',
     IOS_DEVICE_PARAM: 'iosapp',
     CLOSE_EMB_VIEW_URL: 'closewebview',
-    APP_VERSION: '0.0.7'
+    APP_VERSION: '0.0.9'
 };
 
 var app = (function(config, $) {

@@ -47,6 +47,8 @@
         var crHeaderBackBtn = $('#' + CR_BACK_BTN_ID),
             elm = $('#logo'),
             menuElm;
+        var pathname = window.location.pathname;
+
         menuElm = $('#main-header');
 
         if ($('#' + CR_ClOSE_EMBEDED_VIEW).length > 0) {
@@ -57,56 +59,63 @@
             evt.preventDefault();
             return false;
         });
-        // TODO: Trigger back buttons on location change;
+        //// TODO: Trigger back buttons on location change;
         elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
-        elm.before('<div id="closeIcon" class="hamburger-icon open" style="display: none !important; float: left !important;">' +
-            '<span></span>' +
-            '<span></span>' +
-            '<span></span>' +
-            '</div>');
-        elm.parent().css('height', '46px');
-        menuElm.find('nav').find('ul').find('li').last().after('<li id="contactUsMenu"><a href="mailto:support@carRentals.com; return false;">Contact Us</a></li>');
 
-        function runOpenListener() {
-            var runInterval= setInterval(function() {
-                $('.pika-single').each(function() {
-                    if (!$(this).hasClass('is-hidden')) {
+        //==========
+        //elm.before('<div id="closeIcon" class="hamburger-icon open" style="display: none !important; float: left !important;">' +
+        //    '<span></span>' +
+        //    '<span></span>' +
+        //    '<span></span>' +
+        //    '</div>');
+
+        elm.parent().css('height', '46px');
+
+        menuElm.find('nav').find('ul').find('li').last().after('<li id="contactUsMenu"><a href="mailto:support@carRentals.com; return false;">Contact Us</a></li>');
+        //==========
+        if(pathname === '/') {
+            function runOpenListener() {
+                var runInterval = setInterval(function () {
+                    $('.pika-single').each(function () {
+                        if (!$(this).hasClass('is-hidden')) {
+                            $('#' + CR_ClOSE_EMBEDED_VIEW).toggle();
+                            $('#closeIcon').toggle();
+                            clearInterval(runInterval);
+                            runCloseListener($(this));
+                        }
+                    });
+                }, 10);
+            }
+
+            function runCloseListener(elm) {
+                var runInterval = setInterval(function () {
+                    if (elm.hasClass('is-hidden')) {
                         $('#' + CR_ClOSE_EMBEDED_VIEW).toggle();
                         $('#closeIcon').toggle();
                         clearInterval(runInterval);
-                        runCloseListener($(this));
+                        runOpenListener();
                     }
-                });
-            });
-        }
+                }, 10);
+            }
 
-        function runCloseListener(elm) {
-            var runInterval= setInterval(function() {
-                if (elm.hasClass('is-hidden')) {
-                    $('#' + CR_ClOSE_EMBEDED_VIEW).toggle();
-                    $('#closeIcon').toggle();
-                    clearInterval(runInterval);
-                    runOpenListener();
-                }
-            });
+            runOpenListener();
         }
-        runOpenListener();
     }
 
     var makeChanges = function() {
         $(function() {
             $('#suppliers, #confidence, #main-footer, #feedbackify a, .getstarted-message').hide();
 
-            if(window.location.pathname == '/') {
-                $('body').addClass('page-background')
-            }
+            //if(window.location.pathname == '/') {
+            //    $('body').addClass('page-background')
+            //}
 
             $('body').show(0);
         });
     };
 
     $(eventsHandlerElement).on("locationChange", function(e, location) {
-        makeChanges();
+        //makeChanges();
         apendHeader();
         makeChanges();
     });
@@ -115,7 +124,7 @@
     monitorLocation();
     var runInterval = setInterval(function(){
         if($('#main-header').length) {
-            makeChanges();
+            //makeChanges();
             apendHeader();
 //            monitorLocation();
             makeChanges();

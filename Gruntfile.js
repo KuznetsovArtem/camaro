@@ -7,7 +7,18 @@
 module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
     require('time-grunt')(grunt);
+
+    grunt.loadNpmTasks('grunt-exec');
     grunt.initConfig({
+        exec: {
+            run: 'cordova run android',
+            //run: {
+            //    droid : 'cordova run android',
+            //    ios : 'cordova run ios --device'
+            //},
+            //runa: 'cordova run android',
+            //build : 'cordova build --release'
+        },
         cr: {
             app: 'www',
             temp: 'temp',

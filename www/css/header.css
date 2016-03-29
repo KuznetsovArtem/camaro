@@ -43,9 +43,6 @@ body, html {
     margin-top: 2px;
     display: inline-block;
 }
-/*#main-header nav ul:last-child {
-    display: none;
-}*/
 #main-header nav ul li {
     text-align: left;
 }
