@@ -63,9 +63,9 @@ var app = (function(config, $) {
     };
 
     return {
-        webAppInstances : {},
-        getWebAppInstance: function(link) {
-            return app.webAppInstances[link];
+        webAppInstance: {},
+        getWebAppInstance: function() {
+            return app.webAppInstance;
         },
         // Application Constructor
         initialize: function() {
@@ -80,7 +80,6 @@ var app = (function(config, $) {
             // TODO: native buttons behaviour;
         },
         bindWebAppEvents: function(webApp, execParams, showOnLoad) {
-            /* TODO: trying to apply smooth page switching */
             var currentLocation = location.pathname;
             var loadFlag = false;
             var interval = setInterval(function() {
@@ -101,6 +100,9 @@ var app = (function(config, $) {
             });
 
             webApp.addEventListener("loadstop", function(e) {
+                // Toggle loading;
+                $('.spin-progress').not('.hide').parent().find('span').toggleClass('hide');
+
                 console.info('WebView #2 loadstop', e);
                 if (!loadFlag) {
                     exec.css(webApp, execParams.file.css);
@@ -116,31 +118,35 @@ var app = (function(config, $) {
 
             webApp.addEventListener('exit', function() {
                 console.info('WebView #2 closed');
+
                 if(app.hardClose) {
                     console.info('hard close, no preload!!');
                     app.hardClose = false;
+                    app.openReservation();
                     return false;
                 }
+
                 exec.flush();
                 setTimeout(function() {
                     app.preloadHomePage();
                 }, 500);
             });
         },
-        closeWebAppInstances: function() {
+        openReservation: function() {
+            return app.createWebAppInstance(config.WEB_BOOKING_URL, homePageInjects, true); // showOn load - true;
+        },
+        closeWebApp: function() {
             app.hardClose = true;
-            for(var key in app.webAppInstances) {
-                console.info('close webapp #', app.webAppInstances[key]);
-                app.webAppInstances[key].close&&app.webAppInstances[key].close();
-            }
+            console.info('close webapp #', app.webAppInstance);
+            app.webAppInstance.close&&app.webAppInstance.close();
         },
         createWebAppInstance: function(link, injects, showOnLoad) {
             var target = target||'_blank';
-            app.webAppInstances[link] = cordova.InAppBrowser.open(
+            app.webAppInstance = cordova.InAppBrowser.open(
                 link, target, 'location=no,toolbar=no,hidden=yes'
             );
-            app.bindWebAppEvents(app.webAppInstances[link], injects, showOnLoad);
-            return app.webAppInstances[link];
+            app.bindWebAppEvents(app.webAppInstance, injects, showOnLoad);
+            return app.webAppInstance;
         },
         updateUrls: function(param) {
             // Swap URLs when www version will be set to 100%
@@ -166,7 +172,7 @@ var app = (function(config, $) {
         },
         preloadHomePage: function() {
             // Load all web pages before open
-            app.webAppInstances = {};
+            app.webAppInstance = {};
 
             // Identify device
             var devicePlatform = device.platform;
@@ -187,46 +193,40 @@ var app = (function(config, $) {
             app.preloadHomePage();
 
             $(function() {
-                function launchInAppBrowser(evt) {
-                    var btnWrapper = evt.data[1];
-                    if (btnWrapper !== null) {
-                        $(btnWrapper).find('span').each(function() {
-                            $(this).toggleClass('hide');
-                        });
-                    }
-                    var link ;
-                    if(btnWrapper === '#gotoweb') {
-                        link = config.WEB_HOME_URL
-                    } else if (btnWrapper === '#gotobooking') {
-                        link = config.WEB_BOOKING_URL
-                    } else {
-                        link = evt.data[0];
-                    }
-                    $('body').fadeOut('fast', function() {
-                        app.openWebApp(link, homePageInjects, '_blank');
-                        $('body').show();
-                        if (btnWrapper !== null) {
-                            var interval = setInterval(function() {
-                                $(btnWrapper).find('span').each(function() {
-                                    $(this).toggleClass('hide');
-                                });
-                                clearInterval(interval);
-                            }, 200);
-                        }
-                    })
-                }
                 var bodyElm = $('body');
                 bodyElm.on("click", '#gotoweb', [config.WEB_HOME_URL, '#gotoweb'], launchInAppBrowser);
-                bodyElm.on("click", '#gotobooking', [config.WEB_BOOKING_URL, '#gotobooking'], launchInAppBrowser);
-
-                var interval = setInterval(function() {
-                    var crHeaderBookings = $('#myBookingsMenu');
-                    if (crHeaderBookings.length > 0) {
-                        crHeaderBookings.on('click', null, [config.WEB_BOOKING_URL, '#gotobooking'], launchInAppBrowser);
-                        clearInterval(interval);
-                    }
-                }, 200);
+                bodyElm.on("click", '#gotobooking, #myBookingsMenu', [config.WEB_BOOKING_URL, '#gotobooking'], launchInAppBrowser);
             });
+
+            function launchInAppBrowser(evt) {
+                var btnWrapper = evt.data[1];
+
+                if (btnWrapper === '#gotobooking') {
+                    if(evt.currentTarget.id === 'myBookingsMenu') {
+
+                        // Wait for btn render
+                        var checkBtn = setInterval(function() {
+                            if($('#gotobooking').length) {
+                                $(btnWrapper).find('span').toggleClass('hide');
+                                clearInterval(checkBtn);
+                            }
+                        }, 100);
+                    } else {
+                        $(btnWrapper).find('span').toggleClass('hide');
+                    }
+                }
+                var link ;
+                if(btnWrapper === '#gotoweb') {
+                    link = config.WEB_HOME_URL
+                } else if (btnWrapper === '#gotobooking') {
+                    link = config.WEB_BOOKING_URL
+                } else {
+                    link = evt.data[0];
+                }
+
+                // Open app;
+                app.openWebApp(link, homePageInjects, '_blank');
+            }
         },
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
@@ -250,17 +250,11 @@ var app = (function(config, $) {
             console.info('Checking updates...', config.APP_VERSION);
         },
         openWebApp: function(link) {
-
-            console.info('Debug: link', link)
             if(!CONNECTION_STATUS) return app.onDeviceOffline();
-            console.log('Open webApp', link, 'from', app.webAppInstances);
 
             if(link === config.WEB_BOOKING_URL) {
                 console.info('user select reservations page...');
-                app.closeWebAppInstances();
-                // TODO: loading layer/button;
-                var webApp = app.createWebAppInstance(config.WEB_BOOKING_URL, homePageInjects, true); // showOn load - true;
-                console.log('Web app', webApp);
+                app.closeWebApp();
                 return true;
             }
 
