@@ -70,8 +70,13 @@
         //    '</div>');
 
         elm.parent().css('height', '46px');
+        var navItems = menuElm.find('nav').find('ul').find('li');
 
-        menuElm.find('nav').find('ul').find('li').last().after('<li id="contactUsMenu"><a href="mailto:support@carRentals.com; return false;">Contact Us</a></li>');
+        navItems.last().after('<li id="contactUsMenu"><a href="mailto:support@carRentals.com; return false;">Contact Us</a></li>');
+        // Close nav menu after clicking on menu item
+        navItems.on('click', function() {
+            $('.hamburger-icon').click();
+        })
         //==========
         if(pathname === '/') {
             function runOpenListener() {
