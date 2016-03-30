@@ -76,7 +76,7 @@
         // Close nav menu after clicking on menu item
         navItems.on('click', function() {
             $('.hamburger-icon').click();
-        })
+        });
         //==========
         if(pathname === '/') {
             function runOpenListener() {
@@ -110,6 +110,9 @@
     var makeChanges = function() {
         $(function() {
             $('#suppliers, #confidence, #main-footer, #feedbackify a, .getstarted-message').hide();
+            if($('.js-login-button').length) {
+                $('.js-login-button').parent().find('p:last-child').css('visibility', 'hidden');
+            }
 
             //if(window.location.pathname == '/') {
             //    $('body').addClass('page-background')
@@ -120,7 +123,6 @@
     };
 
     $(eventsHandlerElement).on("locationChange", function(e, location) {
-        //makeChanges();
         apendHeader();
         makeChanges();
     });
@@ -129,7 +131,6 @@
     monitorLocation();
     var runInterval = setInterval(function(){
         if($('#main-header').length) {
-            //makeChanges();
             apendHeader();
 //            monitorLocation();
             makeChanges();

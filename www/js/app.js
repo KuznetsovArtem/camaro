@@ -1,10 +1,12 @@
 var CONFIG = {
     WEB_HOME_URL: 'https://www2.carrentals.com',
     WEB_BOOKING_URL: 'https://book.carrentals.com/bookings',
+    //TODO: fix android analytic
+    //ANDROID_DEVICE_PARAM: 'TMMID=BRA%3A1326&Chnl=Brand&utm_source=Android+App&utm_medium=App&utm_content=&utm_campaign=Android+App',
     ANDROID_DEVICE_PARAM: 'androidapp',
-    IOS_DEVICE_PARAM: 'iosapp',
+    IOS_DEVICE_PARAM: 'TMMID=BRA%3A1325&Chnl=Brand&utm_source=iOS+App&utm_medium=App&utm_content=&utm_campaign=iOS+App',
     CLOSE_EMB_VIEW_URL: 'closewebview',
-    APP_VERSION: '0.0.9'
+    APP_VERSION: '10'
 };
 
 var app = (function(config, $) {
