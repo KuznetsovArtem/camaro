@@ -6,7 +6,7 @@ var CONFIG = {
     ANDROID_DEVICE_PARAM: 'androidapp',
     IOS_DEVICE_PARAM: 'TMMID=BRA%3A1325&Chnl=Brand&utm_source=iOS+App&utm_medium=App&utm_content=&utm_campaign=iOS+App',
     CLOSE_EMB_VIEW_URL: 'closewebview',
-    APP_VERSION: '10'
+    APP_VERSION: '11'
 };
 
 var app = (function(config, $) {
