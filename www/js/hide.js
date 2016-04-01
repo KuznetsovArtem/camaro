@@ -4,6 +4,6 @@
 
 
 (function() {
-    document.getElementsByTagName('body')[0].style.display = 'none';
+    //document.getElementsByTagName('body')[0].style.display = 'none';
     //console.info('Hiding body after loadstart event@!!');
 })();
