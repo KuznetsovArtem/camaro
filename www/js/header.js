@@ -31,11 +31,11 @@
 
     window.closeEmbededView = function() {
         var pathname = window.location.pathname;
-        if(pathname === '/offers' || pathname === '/goto') {
-            window.location = WEB_HOME_URL;
-        }
-        else if(pathname === '/' || pathname === '/bookings') {
+        if(pathname === '/' || pathname === '/bookings' || window.location.hash === '#contactus') {
             window.location.pathname = '/closewebview';
+        }
+        else if(pathname === '/offers' || pathname === '/goto') {
+            window.location = WEB_HOME_URL;
         }
         else {
             history.back();
@@ -72,7 +72,13 @@
         elm.parent().css('height', '46px');
         var navItems = menuElm.find('nav').find('ul').find('li');
 
-        navItems.last().after('<li id="contactUsMenu"><a href="mailto:support@carRentals.com; return false;">Contact Us</a></li>');
+        navItems.last().after('<li id="contactUsMenu"><a>Contact Us</a></li>');
+        // Since 'mailto:' ref doesn't work properly inside inAppBrowser we need to close current window and call email
+        // client from native app
+        $('#contactUsMenu').on('click', function() {
+            window.location.hash = '#contactus';
+            closeEmbededView();
+        })
         // Close nav menu after clicking on menu item
         navItems.on('click', function() {
             $('.hamburger-icon').click();
