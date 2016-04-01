@@ -215,7 +215,9 @@ var app = (function(config, $) {
         },
         onDeviceReady: function() {
             app.preloadHomePage();
-            navigator.splashscreen.hide();
+            setTimeout(function() {
+                navigator.splashscreen.hide();
+            }, 1500);
 
             $(function() {
                 var bodyElm = $('body');

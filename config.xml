@@ -20,6 +20,7 @@
     <preference name="Orientation" value="portrait" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="" />
+    <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="false" />
     <preference name="SplashScreenDelay" value="3000" />
     <platform name="android">
