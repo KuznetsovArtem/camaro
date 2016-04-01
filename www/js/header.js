@@ -119,11 +119,6 @@
             if($('.js-login-button').length) {
                 $('.js-login-button').parent().find('p').css('visibility', 'hidden');
             }
-
-            //if(window.location.pathname == '/') {
-            //    $('body').addClass('page-background')
-            //}
-
             $('body').show(0);
         });
     };

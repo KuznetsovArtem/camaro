@@ -66,6 +66,7 @@ var app = (function(config, $) {
 
     return {
         webAppInstance: {},
+        homePreloadInterval: '',
         getWebAppInstance: function() {
             return app.webAppInstance;
         },
@@ -101,14 +102,32 @@ var app = (function(config, $) {
                 if (event.url.indexOf('#contactus') !== -1) {
                     window.open('mailto:support@carRentals.com', '_system');
                 }
-                exec.js(webApp, 'js/hide.js');
+                var execFx = function() {
+                    console.log('loadStart', window, document, event);
+                    document.getElementsByTagName('body')[0].style.display = 'none';
+                };
+
+                if(/carrentals.com\/$/.test(event.url)) {
+                    console.info('BACK FROM RESULTS TO HOME PAGE');
+                    app.homePreloadInterval = setInterval(function() {
+                        webApp.executeScript(
+                            {code: '('+ execFx.toString() +')()'},
+                            function(e) {
+                                console.info('======loadStart callback======', e, event);
+                            }
+                        );
+                    }, 550);
+                }
+
             });
 
             webApp.addEventListener("loadstop", function(e) {
                 // Toggle loading;
                 $('.spin-progress').not('.hide').parent().find('span').toggleClass('hide');
-
+                // Clear Interval set in loadstart for home page;
+                clearInterval(app.homePreloadInterval);
                 console.info('WebView #2 loadstop', e);
+
                 if (!loadFlag) {
                     exec.css(webApp, execParams.file.css);
                     exec.js(webApp, execParams.file.js);
