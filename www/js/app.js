@@ -100,6 +100,7 @@ var app = (function(config, $) {
                     webApp.close();
                 }
                 if (event.url.indexOf('#contactus') !== -1) {
+                    webApp.close();
                     window.open('mailto:support@carRentals.com', '_system');
                 }
                 var execFx = function() {
@@ -137,6 +138,10 @@ var app = (function(config, $) {
                 }
                 if(showOnLoad) {
                     webApp.show();
+                }
+
+                if (navigator.splashscreen) {
+                    navigator.splashscreen.hide();
                 }
             });
 
@@ -215,9 +220,6 @@ var app = (function(config, $) {
         },
         onDeviceReady: function() {
             app.preloadHomePage();
-            setTimeout(function() {
-                navigator.splashscreen.hide();
-            }, 1500);
 
             $(function() {
                 var bodyElm = $('body');
