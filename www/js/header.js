@@ -81,7 +81,7 @@
         })
         // Close nav menu after clicking on menu item
         navItems.on('click', function() {
-            $('.hamburger-icon').click();
+            $('.hamburger-icon').trigger('click');
         });
         //==========
         if(pathname === '/') {
@@ -117,7 +117,7 @@
         $(function() {
             $('#suppliers, #confidence, #main-footer, #feedbackify a, .getstarted-message').hide();
             if($('.js-login-button').length) {
-                $('.js-login-button').parent().find('p:last-child').css('visibility', 'hidden');
+                $('.js-login-button').parent().find('p').css('visibility', 'hidden');
             }
 
             //if(window.location.pathname == '/') {
