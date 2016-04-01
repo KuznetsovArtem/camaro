@@ -98,6 +98,9 @@ var app = (function(config, $) {
                 if (event.url.match(config.CLOSE_EMB_VIEW_URL)) {
                     webApp.close();
                 }
+                if (event.url.indexOf('#contactus') !== -1) {
+                    window.open('mailto:support@carRentals.com', '_system');
+                }
                 exec.js(webApp, 'js/hide.js');
             });
 
@@ -193,6 +196,7 @@ var app = (function(config, $) {
         },
         onDeviceReady: function() {
             app.preloadHomePage();
+            navigator.splashscreen.hide();
 
             $(function() {
                 var bodyElm = $('body');

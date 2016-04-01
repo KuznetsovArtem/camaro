@@ -62,14 +62,6 @@ header + div {
     display: none !important;
 }
 
-/*rem old ff bg*/
-.key-visual-headline,
-.key-visual.index,
-.key-visual,
-.keyvisual-overlay {
-    background-image: none !important;
-    background-color: transparent !important;
-}
 #suppliers, #confidence, #main-footer, #feedbackify a, .getstarted-message {
     display: none !important;
 }
