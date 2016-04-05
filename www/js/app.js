@@ -1,5 +1,5 @@
 var CONFIG = {
-    WEB_HOME_URL: 'https://www2.carrentals.com',
+    WEB_HOME_URL: 'https://www2.carrentals.com/wrapper-app',
     WEB_BOOKING_URL: 'https://book.carrentals.com/bookings',
     //TODO: fix android analytic
     //ANDROID_DEVICE_PARAM: 'TMMID=BRA%3A1326&Chnl=Brand&utm_source=Android+App&utm_medium=App&utm_content=&utm_campaign=Android+App',
@@ -67,6 +67,11 @@ var app = (function(config, $) {
     return {
         webAppInstance: {},
         homePreloadInterval: '',
+        hideSplashScreen: function() {
+            if (navigator.splashscreen) {
+                navigator.splashscreen.hide();
+            }
+        },
         getWebAppInstance: function() {
             return app.webAppInstance;
         },
@@ -140,9 +145,7 @@ var app = (function(config, $) {
                     webApp.show();
                 }
 
-                if (navigator.splashscreen) {
-                    navigator.splashscreen.hide();
-                }
+                app.hideSplashScreen();
             });
 
             webApp.addEventListener('exit', function() {
@@ -265,6 +268,7 @@ var app = (function(config, $) {
         },
         onDeviceOffline: function() {
             app.showMessage("Cannot connect to the internet.\nCheck your settings and try again.");
+            app.hideSplashScreen();
             console.log('Device offline!!!');
         },
         showMessage: function(msg) {
