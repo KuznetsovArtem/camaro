@@ -13,7 +13,7 @@
     var eventsHandlerElement = 'body',
         CR_BACK_BTN_ID = 'cr-back-btn',
         CR_ClOSE_EMBEDED_VIEW = 'cr-close-web-btn',
-        WEB_HOME_URL = 'https://www2.carrentals.com';
+        WEB_HOME_URL = 'https://www2.carrentals.com/wrapper-app';
         // TODO: update this url;
 
     function monitorLocation() {
@@ -31,7 +31,7 @@
 
     window.closeEmbededView = function() {
         var pathname = window.location.pathname;
-        if(pathname === '/' || pathname === '/bookings' || window.location.hash === '#contactus') {
+        if(pathname === '/' || pathname === '/bookings' || pathname === '/wrapper-app' || window.location.hash === '#contactus') {
             window.location.pathname = '/closewebview';
         }
         else if(pathname === '/offers' || pathname === '/goto') {
@@ -50,6 +50,7 @@
         var pathname = window.location.pathname;
 
         menuElm = $('#main-header');
+        menuElm.show();
 
         if ($('#' + CR_ClOSE_EMBEDED_VIEW).length > 0) {
             return;
@@ -62,12 +63,8 @@
         //// TODO: Trigger back buttons on location change;
         elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
 
-        //==========
-        //elm.before('<div id="closeIcon" class="hamburger-icon open" style="display: none !important; float: left !important;">' +
-        //    '<span></span>' +
-        //    '<span></span>' +
-        //    '<span></span>' +
-        //    '</div>');
+        elm.parent().css('height', '46px');
+        var navItems = menuElm.find('nav').find('ul').find('li');
 
         elm.parent().css('height', '46px');
         var navItems = menuElm.find('nav').find('ul').find('li');
@@ -78,13 +75,13 @@
         $('#contactUsMenu').on('click', function() {
             window.location.hash = '#contactus';
             closeEmbededView();
-        })
+        });
         // Close nav menu after clicking on menu item
         navItems.on('click', function() {
             $('.hamburger-icon').trigger('click');
         });
         //==========
-        if(pathname === '/') {
+        if(pathname === '/' || pathname === '/wrapper-app' || pathname === '/offers') {
             function runOpenListener() {
                 var runInterval = setInterval(function () {
                     $('.pika-single').each(function () {
@@ -132,6 +129,7 @@
     monitorLocation();
     var runInterval = setInterval(function(){
         if($('#main-header').length) {
+            $('#main-header').show();
             apendHeader();
 //            monitorLocation();
             makeChanges();
