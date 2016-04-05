@@ -47,6 +47,9 @@ body, html {
 #main-header nav ul li {
     text-align: left;
 }
+#main-header nav>ul>li a {
+    font-size: initial !important;
+}
 
 header + div {
     padding-top: 43px !important;

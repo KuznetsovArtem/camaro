@@ -82,7 +82,7 @@ var app = (function(config, $) {
         bindEvents: function() {
             document.addEventListener('deviceready', this.onDeviceReady, false);
             // show offline status only on btns click;
-            //document.addEventListener('offline', this.onDeviceOffline, false);
+            //document.addEventListener('offline', hideSplashScreen, false);
             document.addEventListener('online', this.onDeviceOnline, false);
             // document.addEventListener('load', this.onDeviceOffline, false);
             // TODO: native buttons behaviour;
@@ -108,22 +108,22 @@ var app = (function(config, $) {
                     webApp.close();
                     window.open('mailto:support@carRentals.com', '_system');
                 }
-                var execFx = function() {
-                    console.log('loadStart', window, document, event);
-                    document.getElementsByTagName('body')[0].style.display = 'none';
-                };
-
-                if(/carrentals.com\/$/.test(event.url)) {
-                    console.info('BACK FROM RESULTS TO HOME PAGE');
-                    app.homePreloadInterval = setInterval(function() {
-                        webApp.executeScript(
-                            {code: '('+ execFx.toString() +')()'},
-                            function(e) {
-                                console.info('======loadStart callback======', e, event);
-                            }
-                        );
-                    }, 550);
-                }
+//                var execFx = function() {
+//                    console.log('loadStart', window, document, event);
+//                    document.getElementsByTagName('body')[0].style.display = 'none';
+//                };
+//
+//                if(/carrentals.com\/$/.test(event.url)) {
+//                    console.info('BACK FROM RESULTS TO HOME PAGE');
+//                    app.homePreloadInterval = setInterval(function() {
+//                        webApp.executeScript(
+//                            {code: '('+ execFx.toString() +')()'},
+//                            function(e) {
+//                                console.info('======loadStart callback======', e, event);
+//                            }
+//                        );
+//                    }, 550);
+//                }
 
             });
 
@@ -222,6 +222,9 @@ var app = (function(config, $) {
             app.createWebAppInstance(config.WEB_HOME_URL, homePageInjects);
         },
         onDeviceReady: function() {
+           setTimeout(function(){
+                app.hideSplashScreen();
+            }, 5000);
             app.preloadHomePage();
 
             $(function() {
@@ -263,7 +266,7 @@ var app = (function(config, $) {
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
             console.log('Device online!!!');
-            //app.preloadHomePage();
+            app.preloadHomePage();
             //app.checkAppUpdates();
         },
         onDeviceOffline: function() {
