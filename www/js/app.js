@@ -1,12 +1,12 @@
 var CONFIG = {
-    WEB_HOME_URL: 'https://www2.carrentals.com/wrapper-app',
+    WEB_HOME_URL: 'https://www2.carrentals.com/apphome',
     WEB_BOOKING_URL: 'https://book.carrentals.com/bookings',
     //TODO: fix android analytic
-    //ANDROID_DEVICE_PARAM: 'TMMID=BRA%3A1326&Chnl=Brand&utm_source=Android+App&utm_medium=App&utm_content=&utm_campaign=Android+App',
-    ANDROID_DEVICE_PARAM: 'androidapp',
-    IOS_DEVICE_PARAM: 'TMMID=BRA%3A1325&Chnl=Brand&utm_source=iOS+App&utm_medium=App&utm_content=&utm_campaign=iOS+App',
+    ANDROID_DEVICE_PARAM: 'is_mobile_app=true&accountID=2466793TMMID=BRA%3A1327&Chnl=Brand&utm_source=Android+App&utm_medium=App&utm_content=Wrapper+Traffic&utm_campaign=Android+App',
+    //ANDROID_DEVICE_PARAM: 'androidapp',
+    IOS_DEVICE_PARAM: 'is_mobile_app=true&accountID=2466792&TMMID=BRA%3A1325&Chnl=Brand&utm_source=iOS+App&utm_medium=App&utm_content=&utm_campaign=iOS+App',
     CLOSE_EMB_VIEW_URL: 'closewebview',
-    APP_VERSION: '11'
+    APP_VERSION: '15'
 };
 
 var app = (function(config, $) {
@@ -26,9 +26,6 @@ var app = (function(config, $) {
             );
         },
         js : function(app, jsFileName, callack) {
-            if($.inArray(jsFileName, exec.loadedFiles) !== -1) {
-                //return console.warn(jsFileName, 'already loaded');
-            }
             $.get(jsFileName)
                 .done(function(data) {
                     app.executeScript({code: data}, function() {
@@ -81,11 +78,7 @@ var app = (function(config, $) {
         },
         bindEvents: function() {
             document.addEventListener('deviceready', this.onDeviceReady, false);
-            // show offline status only on btns click;
-            //document.addEventListener('offline', hideSplashScreen, false);
             document.addEventListener('online', this.onDeviceOnline, false);
-            // document.addEventListener('load', this.onDeviceOffline, false);
-            // TODO: native buttons behaviour;
         },
         bindWebAppEvents: function(webApp, execParams, showOnLoad) {
             var currentLocation = location.pathname;
@@ -100,31 +93,12 @@ var app = (function(config, $) {
             }, 15);
             /* -- */
             webApp.addEventListener('loadstart', function(event) {
-                console.info('WebView #2 loadstart event', event);
                 if (event.url.match(config.CLOSE_EMB_VIEW_URL)) {
                     webApp.close();
                 }
                 if (event.url.indexOf('#contactus') !== -1) {
                     webApp.close();
-                    window.open('mailto:support@carRentals.com', '_system');
                 }
-//                var execFx = function() {
-//                    console.log('loadStart', window, document, event);
-//                    document.getElementsByTagName('body')[0].style.display = 'none';
-//                };
-//
-//                if(/carrentals.com\/$/.test(event.url)) {
-//                    console.info('BACK FROM RESULTS TO HOME PAGE');
-//                    app.homePreloadInterval = setInterval(function() {
-//                        webApp.executeScript(
-//                            {code: '('+ execFx.toString() +')()'},
-//                            function(e) {
-//                                console.info('======loadStart callback======', e, event);
-//                            }
-//                        );
-//                    }, 550);
-//                }
-
             });
 
             webApp.addEventListener("loadstop", function(e) {
@@ -132,7 +106,6 @@ var app = (function(config, $) {
                 $('.spin-progress').not('.hide').parent().find('span').toggleClass('hide');
                 // Clear Interval set in loadstart for home page;
                 clearInterval(app.homePreloadInterval);
-                console.info('WebView #2 loadstop', e);
 
                 if (!loadFlag) {
                     exec.css(webApp, execParams.file.css);
@@ -149,10 +122,8 @@ var app = (function(config, $) {
             });
 
             webApp.addEventListener('exit', function() {
-                console.info('WebView #2 closed');
 
                 if(app.hardClose) {
-                    console.info('hard close, no preload!!');
                     app.hardClose = false;
                     app.openReservation();
                     return false;
@@ -169,7 +140,6 @@ var app = (function(config, $) {
         },
         closeWebApp: function() {
             app.hardClose = true;
-            console.info('close webapp #', app.webAppInstance);
             app.webAppInstance.close&&app.webAppInstance.close();
         },
         createWebAppInstance: function(link, injects, showOnLoad) {
@@ -222,7 +192,7 @@ var app = (function(config, $) {
             app.createWebAppInstance(config.WEB_HOME_URL, homePageInjects);
         },
         onDeviceReady: function() {
-           setTimeout(function(){
+            setTimeout(function(){
                 app.hideSplashScreen();
             }, 5000);
             app.preloadHomePage();
@@ -234,26 +204,26 @@ var app = (function(config, $) {
             });
 
             function launchInAppBrowser(evt) {
-                var btnWrapper = evt.data[1];
+                var btnContainer = evt.data[1];
 
-                if (btnWrapper === '#gotobooking') {
+                if (btnContainer === '#gotobooking') {
                     if(evt.currentTarget.id === 'myBookingsMenu') {
 
                         // Wait for btn render
                         var checkBtn = setInterval(function() {
                             if($('#gotobooking').length) {
-                                $(btnWrapper).find('span').toggleClass('hide');
+                                $(btnContainer).find('span').toggleClass('hide');
                                 clearInterval(checkBtn);
                             }
                         }, 100);
                     } else {
-                        $(btnWrapper).find('span').toggleClass('hide');
+                        $(btnContainer).find('span').toggleClass('hide');
                     }
                 }
                 var link ;
-                if(btnWrapper === '#gotoweb') {
+                if(btnContainer === '#gotoweb') {
                     link = config.WEB_HOME_URL
-                } else if (btnWrapper === '#gotobooking') {
+                } else if (btnContainer === '#gotobooking') {
                     link = config.WEB_BOOKING_URL
                 } else {
                     link = evt.data[0];
@@ -265,14 +235,11 @@ var app = (function(config, $) {
         },
         onDeviceOnline: function() {
             CONNECTION_STATUS = true;
-            console.log('Device online!!!');
-            app.preloadHomePage();
             //app.checkAppUpdates();
         },
         onDeviceOffline: function() {
             app.showMessage("Cannot connect to the internet.\nCheck your settings and try again.");
             app.hideSplashScreen();
-            console.log('Device offline!!!');
         },
         showMessage: function(msg) {
             navigator.notification.alert(msg, null, 'CarRentals.com');
@@ -283,19 +250,16 @@ var app = (function(config, $) {
                 'There is a newer version of app \n available. Update now?',
                 'Update Available',
                 ['Not Now', 'Not Now']);
-            console.info('Checking updates...', config.APP_VERSION);
         },
         openWebApp: function(link) {
             if(!CONNECTION_STATUS) return app.onDeviceOffline();
 
             if(link === config.WEB_BOOKING_URL) {
-                console.info('user select reservations page...');
                 app.closeWebApp();
                 return true;
             }
 
             var webApp = app.getWebAppInstance(link);
-            console.log('Web app', webApp);
             webApp.show();
         }
     }

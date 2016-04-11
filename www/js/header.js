@@ -2,8 +2,6 @@
  * Created by askuznetsov on 11/5/2015.
  */
 
-// TODO: prevent double loading - array of loaded files;
-
 (function() {
     if(window.loadedHeader) return false;
     window.loadedHeader = true;
@@ -13,7 +11,10 @@
     var eventsHandlerElement = 'body',
         CR_BACK_BTN_ID = 'cr-back-btn',
         CR_ClOSE_EMBEDED_VIEW = 'cr-close-web-btn',
-        WEB_HOME_URL = 'https://www2.carrentals.com/wrapper-app';
+        WEB_HOME_PATH = '/apphome',
+        WEB_BOOKING_PATH = '/bookings',
+        WEB_HOME_URL = 'https://www2.carrentals.com/apphome',
+        WEB_CLOSE_VIEW = '/closewebview';
         // TODO: update this url;
 
     function monitorLocation() {
@@ -31,8 +32,8 @@
 
     window.closeEmbededView = function() {
         var pathname = window.location.pathname;
-        if(pathname === '/' || pathname === '/bookings' || pathname === '/wrapper-app' || window.location.hash === '#contactus') {
-            window.location.pathname = '/closewebview';
+        if(pathname === '/' || pathname === WEB_BOOKING_PATH || pathname === WEB_HOME_PATH || window.location.hash === '#contactus') {
+            window.location.pathname = WEB_CLOSE_VIEW;
         }
         else if(pathname === '/offers' || pathname === '/goto') {
             window.location = WEB_HOME_URL;
@@ -60,12 +61,10 @@
             evt.preventDefault();
             return false;
         });
-        //// TODO: Trigger back buttons on location change;
-        elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
 
+        elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
         elm.parent().css('height', '46px');
         var navItems = menuElm.find('nav').find('ul').find('li');
-
         elm.parent().css('height', '46px');
         var navItems = menuElm.find('nav').find('ul').find('li');
 
@@ -81,7 +80,7 @@
             $('.hamburger-icon').trigger('click');
         });
         //==========
-        if(pathname === '/' || pathname === '/wrapper-app' || pathname === '/offers') {
+        if(pathname === '/' || pathname === WEB_HOME_PATH || pathname === '/offers') {
             function runOpenListener() {
                 var runInterval = setInterval(function () {
                     $('.pika-single').each(function () {
@@ -120,7 +119,7 @@
         });
     };
 
-    $(eventsHandlerElement).on("locationChange", function(e, location) {
+    $(eventsHandlerElement).on("locationChange", function() {
         apendHeader();
         makeChanges();
     });
@@ -131,7 +130,6 @@
         if($('#main-header').length) {
             $('#main-header').show();
             apendHeader();
-//            monitorLocation();
             makeChanges();
             clearInterval(runInterval);
         }
