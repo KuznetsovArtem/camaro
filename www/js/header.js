@@ -65,8 +65,11 @@
         elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
         elm.parent().css('height', '46px');
         var navItems = menuElm.find('nav').find('ul').find('li');
-        elm.parent().css('height', '46px');
-        var navItems = menuElm.find('nav').find('ul').find('li');
+        var reservationLink = navItems.first().find('a');
+        var reservationLinkUrl = reservationLink.attr('href');
+        var reservationLinkUrlSuf = (reservationLinkUrl.indexOf('?') !== -1) ? '&' : '?';
+
+        reservationLink.attr('href', reservationLinkUrl + reservationLinkUrlSuf + 'is_mobile_app=true');
 
         navItems.last().after('<li id="contactUsMenu"><a>Contact Us</a></li>');
         // Since 'mailto:' ref doesn't work properly inside inAppBrowser we need to close current window and call email
