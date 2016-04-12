@@ -98,6 +98,7 @@ var app = (function(config, $) {
                 }
                 if (event.url.indexOf('#contactus') !== -1) {
                     webApp.close();
+                    window.open('mailto:support@carrentals.com', '_system');
                 }
             });
 
