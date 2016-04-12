@@ -80,7 +80,9 @@
         });
         // Close nav menu after clicking on menu item
         navItems.on('click', function() {
-            $('.hamburger-icon').trigger('click');
+            var hamburgerEl = $('.hamburger-icon');
+            hamburgerEl.trigger('click'); // Android
+            hamburgerEl.trigger('tap');   // iOS
         });
         //==========
         if(pathname === '/' || pathname === WEB_HOME_PATH || pathname === '/offers') {
