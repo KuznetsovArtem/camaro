@@ -103,8 +103,6 @@ var app = (function(config, $) {
             });
 
             webApp.addEventListener("loadstop", function(e) {
-                // Toggle loading;
-                $('.spin-progress').not('.hide').parent().find('span').toggleClass('hide');
                 // Clear Interval set in loadstart for home page;
                 clearInterval(app.homePreloadInterval);
 
@@ -142,6 +140,30 @@ var app = (function(config, $) {
         closeWebApp: function() {
             app.hardClose = true;
             app.webAppInstance.close&&app.webAppInstance.close();
+        },
+        goToBooking: function() {
+
+            var tmpexecFx = function() {
+                window.location = this.url;
+            };
+
+            var strindedExecFx = tmpexecFx.toString().replace(
+                'this.url',
+                "'" + config.WEB_BOOKING_URL + "'"
+            );
+            var callback = function() {
+                app.webAppInstance.addEventListener("loadstop", function() {
+                    // Toggle loading;
+                    $('.spin-progress').not('.hide').parent().find('span').toggleClass('hide');
+                    app.webAppInstance.show();
+                });
+            };
+            setTimeout(function() {
+                app.webAppInstance.executeScript(
+                    {code: '('+ strindedExecFx +')()'},
+                    callback
+                );
+            }, 1500);
         },
         createWebAppInstance: function(link, injects, showOnLoad) {
             var target = target||'_blank';
@@ -256,7 +278,8 @@ var app = (function(config, $) {
             if(!CONNECTION_STATUS) return app.onDeviceOffline();
 
             if(link === config.WEB_BOOKING_URL) {
-                app.closeWebApp();
+                //app.closeWebApp();
+                app.goToBooking();
                 return true;
             }
 

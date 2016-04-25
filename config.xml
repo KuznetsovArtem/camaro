@@ -1,9 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.carrentals.webapp" version="2.3.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Carrentals</name>
+<widget id="com.carrentals" version="2.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>CarRentals</name>
     <description>
-        Carrentals.com wrapped webapp
+        The CarRentals.com app is the easiest way to book a car from your Android phone
     </description>
+    <author email="devitukr@gmail.com" href="">
+        Dmitry Petrenko
+    </author>
     <author email="dev.artem.kuznetsov@gmail.com" href="">
         Artem Kuznetsov
     </author>
