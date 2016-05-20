@@ -32,7 +32,7 @@
 
     window.closeEmbededView = function() {
         var pathname = window.location.pathname;
-        if(pathname === '/' || pathname === WEB_BOOKING_PATH || pathname === WEB_HOME_PATH || window.location.hash === '#contactus') {
+        if((pathname && (pathname === '/' || pathname.indexOf(WEB_BOOKING_PATH) !== -1 || pathname.indexOf(WEB_HOME_PATH) !== -1)) || window.location.hash === '#contactus') {
             window.location.pathname = WEB_CLOSE_VIEW;
         }
         else if(pathname === '/offers' || pathname === '/goto') {
@@ -69,7 +69,7 @@
         var reservationLinkUrl = reservationLink.attr('href');
         var reservationLinkUrlSuf = (reservationLinkUrl.indexOf('?') !== -1) ? '&' : '?';
 
-        reservationLink.attr('href', reservationLinkUrl + reservationLinkUrlSuf + 'is_mobile_app=true');
+        reservationLink.attr('href', reservationLinkUrl + reservationLinkUrlSuf);
 
         navItems.last().after('<li id="contactUsMenu"><a>Contact Us</a></li>');
         // Since 'mailto:' ref doesn't work properly inside inAppBrowser we need to close current window and call email
@@ -85,7 +85,7 @@
             hamburgerEl.trigger('tap');   // iOS
         });
         //==========
-        if(pathname === '/' || pathname === WEB_HOME_PATH || pathname === '/offers') {
+        if(pathname && (pathname === '/' || pathname.indexOf(WEB_HOME_PATH) !== -1 || pathname === '/offers')) {
             function runOpenListener() {
                 var runInterval = setInterval(function () {
                     $('.pika-single').each(function () {
