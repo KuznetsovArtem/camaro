@@ -64,6 +64,7 @@
 
         elm.before('<a id="' + CR_ClOSE_EMBEDED_VIEW + '" class="' + CR_BACK_BTN_ID + '" onclick="closeEmbededView();"></a>');
         elm.parent().css('height', '46px');
+        menuElm.find('nav').find('ul').find('li.dropdown').hide();
         var navItems = menuElm.find('nav').find('ul').find('li');
         var reservationLink = navItems.first().find('a');
         var reservationLinkUrl = reservationLink.attr('href');
