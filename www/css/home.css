@@ -61,6 +61,16 @@
 .cr-navbar .cr-logo-primary {
     margin-left: 40px;
 }
+.cr-navbar .cr-logo-primary.new-design {
+    /*margin-left: 0;
+    padding: 0 15px;*/
+    margin-left: 50px;
+    margin-top: -10px;
+    padding: 0;
+    width: 170px;
+    height: auto;
+}
+
 .cr-navbar {
     text-align: center;
 }
