@@ -84,7 +84,7 @@
         <!--<splash src="www/img/ios/Default-667h.png" width="750" height="1334"/>-->
         <!--<splash src="www/img/ios/Default-736h.png" width="1242" height="2208"/>-->
     </platform>
-    <engine name="android" spec="^4.0.0" />
+    <engine name="android" spec="^5.0.0" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <plugin name="cordova-plugin-network-information" spec="^1.1.0" />
     <plugin name="cordova-plugin-statusbar" spec="^2.0.0" />
